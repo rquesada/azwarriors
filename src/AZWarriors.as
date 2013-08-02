@@ -2,9 +2,7 @@ package
 {
 
 	import com.azwarriors.controller.FotosConvencionController;
-
 	import com.view.VideoConvencionView;
-
 	
 	import dev.home.Background;
 	import dev.home.ButtonFotoGuerrero;
@@ -12,10 +10,9 @@ package
 	import dev.home.videosConvencion;
 	
 	import flash.display.Sprite;
-
 	import flash.display.StageScaleMode;
-
 	import flash.events.MouseEvent;
+	import flash.profiler.showRedrawRegions;
 
 	
 	[SWF (backgroundColor='#f4d7b3',  frameRate='30', width='1000', height='800') ]
@@ -34,8 +31,16 @@ package
 		public function AZWarriors()
 		{
 			create();	
+			show(true);
 		}
 		
+		private funcoin show(shouldBeHide:Boolean):void{
+			if(shouldBeHide){
+				
+			}else{
+				
+			}
+		}
 		private function create():void{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			//Background
@@ -67,6 +72,7 @@ package
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OVER,fcChangeRollOverHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OUT, fcChangeRollOutHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.CLICK, fcChangeClickHandler);
+			
 			addChild(fotoConvencionButton); 
 			
 			//Button Video Convencion
