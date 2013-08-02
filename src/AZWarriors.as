@@ -1,7 +1,10 @@
 package
 {
+
 	import com.azwarriors.controller.FotosConvencionController;
+
 	import com.view.VideoConvencionView;
+
 	
 	import dev.home.Background;
 	import dev.home.ButtonFotoGuerrero;
@@ -9,9 +12,11 @@ package
 	import dev.home.videosConvencion;
 	
 	import flash.display.Sprite;
+
 	import flash.display.StageScaleMode;
-=======
+
 	import flash.events.MouseEvent;
+
 	
 	[SWF (backgroundColor='#f4d7b3',  frameRate='30', width='1000', height='800') ]
 	public class AZWarriors extends Sprite
@@ -47,11 +52,13 @@ package
 			fotoGuerreroButton.addEventListener(MouseEvent.CLICK, fgchangeClickHandler);
 			addChild(fotoGuerreroButton); 
 			
+
 			
 			var fotosConvecionController:FotosConvencionController = new FotosConvencionController();
 			fotosConvecionController.init();
 			
 			addChild(fotosConvecionController.view);
+
 			//Button Foto Convencion
 			fotoConvencionButton = new FotoConvencion();
 			fotoConvencionButton.x = 520;
@@ -94,6 +101,7 @@ package
 		//Button Foto Convencion
 		private function fcChangeRollOverHandler(event:MouseEvent):void{
 			fotoConvencionButton.gotoAndPlay(2);
+
 		}
 		
 		private function fcChangeRollOutHandler(event:MouseEvent):void{
