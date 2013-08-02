@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>azwarriors</name>
-	<comment/>
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -14,5 +14,16 @@
 	<natures>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/com</name>
+			<type>2</type>
+			<location>/Users/rquesada/Proyectos/idartstudio/AZWarrior/azwarriors/src/com</location>
+		</link>
+		<link>
+			<name>src/com/util</name>
+			<type>2</type>
+			<location>/Users/rquesada/Proyectos/idartstudio/AZWarrior/azwarriors/src/com/util</location>
+		</link>
+	</linkedResources>
 </projectDescription>
-

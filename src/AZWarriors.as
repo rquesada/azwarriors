@@ -1,5 +1,7 @@
 package
 {
+	import com.view.VideoConvencionView;
+	
 	import dev.home.Background;
 	import dev.home.ButtonFotoGuerrero;
 	import dev.home.FotoConvencion;
@@ -17,6 +19,9 @@ package
 		private var videosConvencionButton: videosConvencion;
 		private var fotoConvencionButton:FotoConvencion;
 		private var videoConvencionButton: videosConvencion;
+		
+		//View
+		private var videoConvencionView:VideoConvencionView;
 		
 		public function AZWarriors()
 		{
@@ -59,7 +64,10 @@ package
 			videoConvencionButton.addEventListener(MouseEvent.CLICK, vcChangeClickHandler);
 			addChild(videoConvencionButton); 
 			
-			
+			//videoConvencionView
+			videoConvencionView = new VideoConvencionView();
+			videoConvencionView.x =0;
+			videoConvencionView.y =0;
 			
 		}
 		//Button Foto Guerrero
@@ -99,6 +107,7 @@ package
 		
 		private function vcChangeClickHandler(event:MouseEvent):void{
 			trace("Click video convencion");
+			addChild(videoConvencionView);
 		}
 		
 	}
