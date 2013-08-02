@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<fotosConvencion>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+		<item>
+			<image>images/fotosConvencion/image1.png</image>
+			<thumb>images/fotosConvencion/thumbnails/image1.png</thumb>
+		</item>
+	</fotosConvencion>
+	
+</root>
