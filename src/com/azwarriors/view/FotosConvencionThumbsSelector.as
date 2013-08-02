@@ -1,5 +1,9 @@
 package com.azwarriors.view
 {
+	import com.azwarriors.vo.ThumbSelectedVO;
+	import com.azwarriors.events.CustomEvent;
+	import com.azwarriors.vo.VO;
+	import flash.events.Event;
 	import com.azwarriors.vo.FotoConvencionVO;
 	import com.azwarriors.vo.FotosConvencionVO;
 	
@@ -7,6 +11,8 @@ package com.azwarriors.view
 	
 	public class FotosConvencionThumbsSelector extends Sprite
 	{
+		public static const EVENT_THUMB_SELECTED:String = "onThumbSelectorSelected";
+		public static const EVENT_THUMBS_READY:String = "onThumbSelectorReady";
 		private var container:Sprite;
 		private var data:FotosConvencionVO;
 		private var thumbsArray:Array;
@@ -27,18 +33,43 @@ package com.azwarriors.view
 			var xPos:int = 0;
 			var yPos:int = 0;
 			for (var i:int = 0; i < data.fotosConvencionArray.length; i++){
-				trace(i);
+				//trace(i);
 				var fotoConvencionVO:FotoConvencionVO = data.fotosConvencionArray[i];
 				var thumbView:FotoConvencionThumbView = new FotoConvencionThumbView(fotoConvencionVO.thumb);
 				thumbView.x = xPos;
 				thumbView.y = yPos;
 				container.addChild(thumbView);
+				thumbView.addEventListener(FotoConvencionThumbView.EVENT_THUMB_CLICK, onThumbClickHandler);
 				thumbsArray.push(thumbView);
 				
 				xPos += thumbView.width + 10;
-				if(((i+1)%2) == 0){
+				if(((i+1)%5) == 0){
 					xPos = 0;
-					yPos += thumbView.height + 10;
+					yPos += thumbView.height + 6;
+				}
+			}
+			dispatchEvent(new Event(EVENT_THUMBS_READY));
+		}
+		
+		private function onThumbClickHandler(event:Event):void{
+			for (var i:int = 0; i < thumbsArray.length; i++){
+				if(event.target == thumbsArray[i]){
+					var vo:ThumbSelectedVO = new ThumbSelectedVO();
+					vo.id = i;
+					dispatchEvent(new CustomEvent(FotosConvencionThumbsSelector.EVENT_THUMB_SELECTED, vo as VO));
+					(thumbsArray[i] as FotoConvencionThumbView).selectThumb();
+				}else{
+					(thumbsArray[i] as FotoConvencionThumbView).deSelectThumb();
+				}
+			}
+		}
+		
+		public function selectThumb(idThumb:int):void{
+			for (var i:int = 0; i < thumbsArray.length; i++){
+				if(idThumb == i){
+					(thumbsArray[i] as FotoConvencionThumbView).selectThumb();
+				}else{
+					(thumbsArray[i] as FotoConvencionThumbView).deSelectThumb();
 				}
 			}
 		}

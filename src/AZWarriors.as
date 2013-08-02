@@ -1,6 +1,7 @@
 package
 {
 
+	import com.azwarriors.view.Scroll;
 	import com.azwarriors.controller.FotosConvencionController;
 	import com.view.VideoConvencionView;
 	
@@ -90,7 +91,9 @@ package
 			videoConvencionView.x =0;
 			videoConvencionView.y =0;
 			
+			
 		}
+
 		//Button Foto Guerrero
 		private function fgchangeRollOverHandler(event:MouseEvent):void{
 			fotoGuerreroButton.gotoAndPlay(2);

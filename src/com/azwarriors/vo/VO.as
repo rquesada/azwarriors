@@ -1,6 +1,6 @@
 package com.azwarriors.vo
 {
-	public class VO
+	public class VO extends Object
 	{
 		public function VO()
 		{
