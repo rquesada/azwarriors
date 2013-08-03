@@ -16,14 +16,14 @@ package com.azwarriors.model
 	public class LoaderManager extends EventDispatcher{
 		private var _bulkLoader:BulkLoader;
 		private	var _urlLoader:URLLoader;
-		private var _defaultImage:String = ""
+		private var _defaultImage:String = "images/fotosConvencion/thumbnails/imageError.jpg"
 		private var _lastCallBack:Function;
 		
 		public function LoaderManager() {
 			_bulkLoader = new BulkLoader("azwarriors");
-			_bulkLoader.logLevel = BulkLoader.LOG_SILENT;
+			_bulkLoader.logLevel = BulkLoader.LOG_ERRORS;
 		}
-		
+
 		public function init():void{
 			_bulkLoader.addEventListener(BulkProgressEvent.COMPLETE, onAssetsComplete);
 			_bulkLoader.addEventListener(BulkProgressEvent.PROGRESS, onBulkProgress);
@@ -96,7 +96,7 @@ package com.azwarriors.model
 		}
 		
 		private function onItemError(ev:Event):void{
-			trace("onError"+(ev.currentTarget as ImageItem).url.url);
+			//trace("onItemError- onError"+(ev.currentTarget as ImageItem).url.url);
 			var wrongURL:String = (ev.currentTarget as ImageItem).url.url;
 			for each(var imageItem:LoadingItem in _bulkLoader.items){
 				if (imageItem is ImageItem && imageItem.url.url == wrongURL){

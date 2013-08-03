@@ -1,4 +1,6 @@
 package com.azwarriors.view {
+	import flash.geom.Matrix;
+	import flash.display.BitmapData;
 	import flash.text.TextFormat;
 	import com.azwarriors.fonts.ArialFont;
 	import flash.text.TextField;
@@ -140,6 +142,10 @@ package com.azwarriors.view {
 		}
 		
 		public function presentImage(_image:Bitmap):void {
+			//_image.width = 600;
+			//_image.height= 393;
+			var imageScaled:Bitmap = new Bitmap(scaleBitmapData(_image.bitmapData, 0.5));
+			
 			TweenLite.to(arrowBtnRight,0.3,{y:arrowBtnRight.y-20,delay:0,onComplete:hideControls});
 			TweenLite.to(arrowBtnLeft, 0.3, {y:arrowBtnLeft.y-20,delay:0});
 			TweenLite.to(closeBtn, 0.3, {y:closeBtn.y - 20, delay:0});
@@ -147,20 +153,35 @@ package com.azwarriors.view {
 			//imagesNumberText.y = imagesNumberText.y - 20;
 			
 			TweenLite.to(image,0.3,{alpha:0,delay:0});
-			var xPos:int = (stage.stageWidth / 2) - (_image.width/ 2);
-			var yPos:int  = (stage.stageHeight / 2) - (_image.height/ 2);
+			var xPos:int = (stage.stageWidth / 2) - (imageScaled.width/ 2);
+			var yPos:int  = (stage.stageHeight / 2) - (imageScaled.height/ 2);
 			
 			
 			frameImage.x = (stage.stageWidth/2) - (frameImage.width/2);
 			frameImage.y = (stage.stageHeight/2) - (frameImage.height/2);
 			//TweenLite.to(frameImage, 0.5, {alpha:0,height:0,width:0});
-			TweenLite.to(frameImage, 0.5, {alpha:1,width:_image.width, height:_image.height, x:xPos, y:yPos,delay:0.7,onComplete:showImage,onCompleteParams:[_image]});
+			TweenLite.to(frameImage, 0.5, {alpha:1,width:imageScaled.width, height:imageScaled.height, x:xPos, y:yPos,delay:0.7,onComplete:showImage,onCompleteParams:[imageScaled]});
 
 			
 			
 		}
 		
-		private function showImage(_image:Bitmap):void{
+		function scaleBitmapData(bitmapData:BitmapData, scale:Number):BitmapData {
+            scale = Math.abs(scale);
+            var width:int = (bitmapData.width * scale) || 1;
+            var height:int = (bitmapData.height * scale) || 1;
+            var transparent:Boolean = bitmapData.transparent;
+            var result:BitmapData = new BitmapData(width, height, transparent);
+            var matrix:Matrix = new Matrix();
+            matrix.scale(scale, scale);
+            result.draw(bitmapData, matrix);
+            return result;
+        }
+		
+		private function showImage(_image:Bitmap):void {
+			
+			trace("_image.width: "+_image.width);
+			trace("_image.height: "+_image.height);
 			var xPos:int = (stage.stageWidth / 2) - (_image.width/ 2);
 			image.x = xPos;
 			

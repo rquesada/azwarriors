@@ -56,6 +56,7 @@ package com.azwarriors.model
 				(data as FotosConvencionVO).fotosConvencionArray.push(fotoConvencionVO);
 				_loaderManager.addAsset(fotoConvencionVO.imageUrl);
 				_loaderManager.addAsset(fotoConvencionVO.thumbUrl);
+				//trace("fotoConvencionVO.thumbUrl: "+fotoConvencionVO.thumbUrl);
 			}
 			_loaderManager.addEventListener(Event.COMPLETE, onFotosConvencionImagesLoadedHandler);
 			_loaderManager.start();
