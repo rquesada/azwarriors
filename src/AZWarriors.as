@@ -35,11 +35,15 @@ package
 			show(true);
 		}
 		
-		private funcoin show(shouldBeHide:Boolean):void{
+		private function show(shouldBeHide:Boolean):void{
 			if(shouldBeHide){
-				
+				addChild(fotoGuerreroButton); 
+				addChild(fotoConvencionButton);
+				addChild(videoConvencionButton); 
 			}else{
-				
+				removeChild(fotoGuerreroButton); 
+				removeChild(fotoConvencionButton);
+				removeChild(videoConvencionButton);
 			}
 		}
 		private function create():void{
@@ -56,7 +60,7 @@ package
 			fotoGuerreroButton.addEventListener(MouseEvent.ROLL_OVER,fgchangeRollOverHandler);
 			fotoGuerreroButton.addEventListener(MouseEvent.ROLL_OUT, fgchangeRollOutHandler);
 			fotoGuerreroButton.addEventListener(MouseEvent.CLICK, fgchangeClickHandler);
-			addChild(fotoGuerreroButton); 
+			
 			
 
 			
@@ -74,7 +78,7 @@ package
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OUT, fcChangeRollOutHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.CLICK, fcChangeClickHandler);
 			
-			addChild(fotoConvencionButton); 
+			 
 			
 			//Button Video Convencion
 			videoConvencionButton = new videosConvencion();
@@ -84,7 +88,7 @@ package
 			videoConvencionButton.addEventListener(MouseEvent.ROLL_OVER,vcChangeRollOverHandler);
 			videoConvencionButton.addEventListener(MouseEvent.ROLL_OUT, vcChangeRollOutHandler);
 			videoConvencionButton.addEventListener(MouseEvent.CLICK, vcChangeClickHandler);
-			addChild(videoConvencionButton); 
+			
 			
 			//videoConvencionView
 			videoConvencionView = new VideoConvencionView();
@@ -132,6 +136,7 @@ package
 		
 		private function vcChangeClickHandler(event:MouseEvent):void{
 			trace("Click video convencion");
+			show(false);
 			addChild(videoConvencionView);
 		}
 		
