@@ -1,5 +1,7 @@
 package com.azwarriors.model
 {
+	import com.azwarriors.vo.FotoGuerreroItemVO;
+	import com.azwarriors.vo.FotoGuerreroVO;
 	import com.azwarriors.model.LoaderManager;
 	import com.azwarriors.vo.FotoConvencionVO;
 	import com.azwarriors.vo.FotosConvencionVO;
@@ -34,6 +36,43 @@ package com.azwarriors.model
 			return _instance;
 		}
 		
+		public function loadFotoGuerreroVO():void {
+			_loaderManager.removeAll();
+			_loaderManager.addEventListener(Event.COMPLETE,onFotoGuerreroXmlCompleteHandler);
+			_loaderManager.addAsset("xml/fotoGuerrero.xml");
+			_loaderManager.start();
+		}
+
+		private function onFotoGuerreroXmlCompleteHandler(event:Event):void{
+			_loaderManager.removeEventListener(Event.COMPLETE,onFotoGuerreroXmlCompleteHandler);
+			data = new FotoGuerreroVO();
+			var xml:XML = (_loaderManager.getAsset("xml/fotoGuerrero.xml") as XML);
+			(data as FotoGuerreroVO).fotoGuerrerosArray = new Array();
+			_loaderManager.removeAll();
+			for each(var fotoGuerreroXML:XML in xml.fotosConvencion.children()){
+				var fotoGuerrero:FotoGuerreroItemVO = new FotoGuerreroItemVO();
+				fotoGuerrero.imageUrl = fotoGuerreroXML.image;
+				fotoGuerrero.guerreroName = fotoGuerreroXML.nameGuerrero;
+				(data as FotoGuerreroVO).fotoGuerrerosArray.push(fotoGuerrero);
+				_loaderManager.addAsset(fotoGuerrero.imageUrl);
+				
+				//trace("fotoConvencionVO.thumbUrl: "+fotoConvencionVO.thumbUrl);
+			}
+			_loaderManager.addEventListener(Event.COMPLETE, onFotosGuerreroImagesLoadedHandler);
+			_loaderManager.start();
+		}
+		
+		private function onFotosGuerreroImagesLoadedHandler(event:Event):void{
+			_loaderManager.removeEventListener(Event.COMPLETE, onFotosGuerreroImagesLoadedHandler);	
+			for each(var fotoGuerrerVO:FotoGuerreroItemVO in (data as FotoGuerreroVO).fotoGuerrerosArray) {
+				//trace(fotoConvencionVO.imageUrl);
+				//trace(fotoConvencionVO.thumbUrl);
+				fotoGuerrerVO.image = _loaderManager.getAsset(fotoGuerrerVO.imageUrl) as Bitmap;
+			}	
+			dispatchEvent(new Event(MainModel.MODEL_READY));
+		
+		}
+
 		public function loadFotosConvencionVO():void{
 			trace("MainModel - loadFotosConvencionVO");
 			_loaderManager.removeAll();

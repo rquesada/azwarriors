@@ -23,6 +23,7 @@ package com.azwarriors.controller
 		}
 		
 		private function onModelReadyHandler(event:Event):void{
+			MainModel.getInstance().removeEventListener(MainModel.MODEL_READY,onModelReadyHandler);
 			view.init(MainModel.getInstance().data as FotosConvencionVO);
 		}
 	}
