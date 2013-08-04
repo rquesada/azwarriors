@@ -3,6 +3,8 @@ package
 
 	import com.azwarriors.controller.FotoGuerreroController;
 	import com.azwarriors.controller.FotosConvencionController;
+	import com.azwarriors.events.MenuEve;
+	import com.azwarriors.footer.FooterView;
 	import com.azwarriors.view.Scroll;
 	import com.view.VideoConvencionView;
 	
@@ -18,7 +20,7 @@ package
 	import flash.profiler.showRedrawRegions;
 
 	
-	[SWF (backgroundColor='#f4d7b3',  frameRate='30', width='1000', height='800') ]
+	[SWF (backgroundColor='#f4d7b3',  frameRate='30', width='1000', height='715') ]
 	public class AZWarriors extends Sprite
 	{
 		
@@ -30,6 +32,7 @@ package
 		private var introAnimation: AZwarriorAnimation;
 		private var fotosConvecionController:FotosConvencionController;
 		private var fotoGuerreroController:FotoGuerreroController;
+		private var footerView:FooterView;
 		
 		//View
 		private var videoConvencionView:VideoConvencionView;
@@ -47,12 +50,15 @@ package
 				addChild(fotoConvencionButton);
 				addChild(videoConvencionButton); 
 				introAnimation.gotoAndPlay(1);
+				if(this.contains(footerView))
+					removeChild(footerView);
 				
 			}else{
 				removeChild(fotoGuerreroButton); 
 				removeChild(fotoConvencionButton);
 				removeChild(videoConvencionButton);
 				removeChild(introAnimation);
+				addChild(footerView);
 			}
 		}
 		private function create():void{
@@ -69,10 +75,6 @@ package
 			fotoGuerreroButton.addEventListener(MouseEvent.ROLL_OVER,fgchangeRollOverHandler);
 			fotoGuerreroButton.addEventListener(MouseEvent.ROLL_OUT, fgchangeRollOutHandler);
 			fotoGuerreroButton.addEventListener(MouseEvent.CLICK, fgchangeClickHandler);
-			
-			fotosConvecionController = new FotosConvencionController();
-			
-			
 			fotoGuerreroController = new FotoGuerreroController();
 			
 			
@@ -104,6 +106,28 @@ package
 			introAnimation = new AZwarriorAnimation();
 			introAnimation.x=500;
 			introAnimation.y= 250;
+			
+			//Main Menu
+			footerView = new FooterView();
+			footerView.x=0;
+			footerView.y= 715 - 143;
+			footerView.addEventListener("goInicio", goInicioHandler);
+			footerView.addEventListener("goGuerrero", goGuerreroHandler);
+			footerView.addEventListener("goGaleria", goGaleriaHandler);
+			footerView.addEventListener("goVideos", goVideosHandler);
+			
+		}
+		//Menu events
+		private function goInicioHandler(event:MenuEve):void{
+			show(true);
+		}
+		private function goGuerreroHandler(event:MenuEve):void{
+			
+		}
+		private function goGaleriaHandler(event:MenuEve):void{
+			
+		}
+		private function goVideosHandler(event:MenuEve):void{
 			
 		}
 

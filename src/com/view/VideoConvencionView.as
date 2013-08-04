@@ -87,7 +87,7 @@ package com.view
 			addChild(rollArea2);
 			
 			btn2 = new PlayPauseBtn();
-			btn2.buttonMode = true;
+			btn2.buttonMode = true;	
 			btn2.x = 1000 / 2 - btn2.width/2;
 			btn2.y = yVideo2 + heighVideo2/2 -  btn2.height / 2;
 			
