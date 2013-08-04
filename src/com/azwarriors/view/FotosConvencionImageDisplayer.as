@@ -180,8 +180,6 @@ package com.azwarriors.view {
 		
 		private function showImage(_image:Bitmap):void {
 			
-			trace("_image.width: "+_image.width);
-			trace("_image.height: "+_image.height);
 			var xPos:int = (stage.stageWidth / 2) - (_image.width/ 2);
 			image.x = xPos;
 			

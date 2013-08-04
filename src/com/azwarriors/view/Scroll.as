@@ -71,7 +71,9 @@ package com.azwarriors.view {
 		}
 		
 		private function updateContentPosition():void{
-			var yPos:Number = (scroller.y * (content.height - maskSp.height + 40)) / line.height;
+			//var yPos:Number = (scroller.y * (content.height - maskSp.height)) / line.height;
+			var yPos:Number = (scroller.y * (content.height)) / line.height;
+			
 			//yPos = yPos * -1 ;
 			//trace("yPos: " + yPos);
 			if(yPos == 0){
