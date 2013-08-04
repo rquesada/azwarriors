@@ -1,6 +1,7 @@
 package
 {
 
+	import com.azwarriors.controller.FotoGuerreroController;
 	import com.azwarriors.controller.FotosConvencionController;
 	import com.azwarriors.view.Scroll;
 	import com.view.VideoConvencionView;
@@ -28,7 +29,7 @@ package
 		private var videoConvencionButton: videosConvencion;
 		private var introAnimation: AZwarriorAnimation;
 		private var fotosConvecionController:FotosConvencionController;
-		
+		private var fotoGuerreroController:FotoGuerreroController;
 		
 		//View
 		private var videoConvencionView:VideoConvencionView;
@@ -70,8 +71,11 @@ package
 			fotoGuerreroButton.addEventListener(MouseEvent.CLICK, fgchangeClickHandler);
 			
 			fotosConvecionController = new FotosConvencionController();
-			fotosConvecionController.init();
-
+			
+			
+			fotoGuerreroController = new FotoGuerreroController();
+			
+			
 			//Button Foto Convencion
 			fotoConvencionButton = new FotoConvencion();
 			fotoConvencionButton.x = 520;
@@ -114,8 +118,11 @@ package
 		
 		private function fgchangeClickHandler(event:MouseEvent):void{
 			trace("Click foto guerrero");
+			fotoGuerreroController.init();
+			show(false);
+			addChild(fotoGuerreroController.view);
 		}
-		
+
 		//Button Foto Convencion
 		private function fcChangeRollOverHandler(event:MouseEvent):void{
 			fotoConvencionButton.gotoAndPlay(2);
@@ -127,6 +134,7 @@ package
 		}
 		
 		private function fcChangeClickHandler(event:MouseEvent):void{
+			fotosConvecionController.init();
 			show(false);
 			addChild(fotosConvecionController.view);
 		}
