@@ -1,10 +1,11 @@
 package
 {
 
-	import com.azwarriors.view.Scroll;
 	import com.azwarriors.controller.FotosConvencionController;
+	import com.azwarriors.view.Scroll;
 	import com.view.VideoConvencionView;
 	
+	import dev.home.AZwarriorAnimation;
 	import dev.home.Background;
 	import dev.home.ButtonFotoGuerrero;
 	import dev.home.FotoConvencion;
@@ -25,6 +26,8 @@ package
 		private var videosConvencionButton: videosConvencion;
 		private var fotoConvencionButton:FotoConvencion;
 		private var videoConvencionButton: videosConvencion;
+		private var introAnimation: AZwarriorAnimation;
+		
 		
 		//View
 		private var videoConvencionView:VideoConvencionView;
@@ -40,10 +43,13 @@ package
 				addChild(fotoGuerreroButton); 
 				addChild(fotoConvencionButton);
 				addChild(videoConvencionButton); 
+				introAnimation.gotoAndPlay(1);
+				addChild(introAnimation);
 			}else{
 				removeChild(fotoGuerreroButton); 
 				removeChild(fotoConvencionButton);
 				removeChild(videoConvencionButton);
+				removeChild(introAnimation);
 			}
 		}
 		private function create():void{
@@ -77,7 +83,6 @@ package
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OVER,fcChangeRollOverHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OUT, fcChangeRollOutHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.CLICK, fcChangeClickHandler);
-			
 			 
 			
 			//Button Video Convencion
@@ -89,11 +94,15 @@ package
 			videoConvencionButton.addEventListener(MouseEvent.ROLL_OUT, vcChangeRollOutHandler);
 			videoConvencionButton.addEventListener(MouseEvent.CLICK, vcChangeClickHandler);
 			
-			
 			//videoConvencionView
 			videoConvencionView = new VideoConvencionView();
 			videoConvencionView.x =0;
 			videoConvencionView.y =0;
+			
+			//Animation
+			introAnimation = new AZwarriorAnimation();
+			introAnimation.x=500;
+			introAnimation.y= 250;
 			
 			
 		}

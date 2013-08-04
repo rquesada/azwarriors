@@ -27,6 +27,7 @@
       <libraryPathEntry kind="3" linkType="1" path="libs/General.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry kind="3" linkType="1" path="libs/bulk_loader.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="libs/IntroAZWarriorsCS5.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -36,5 +37,3 @@
   <modules/>
   <buildCSSFiles/>
 </actionScriptProperties>
-
-
