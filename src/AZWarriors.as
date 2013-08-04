@@ -27,6 +27,7 @@ package
 		private var fotoConvencionButton:FotoConvencion;
 		private var videoConvencionButton: videosConvencion;
 		private var introAnimation: AZwarriorAnimation;
+		private var fotosConvecionController:FotosConvencionController;
 		
 		
 		//View
@@ -40,11 +41,12 @@ package
 		
 		private function show(shouldBeHide:Boolean):void{
 			if(shouldBeHide){
+				addChild(introAnimation);
 				addChild(fotoGuerreroButton); 
 				addChild(fotoConvencionButton);
 				addChild(videoConvencionButton); 
 				introAnimation.gotoAndPlay(1);
-				addChild(introAnimation);
+				
 			}else{
 				removeChild(fotoGuerreroButton); 
 				removeChild(fotoConvencionButton);
@@ -67,13 +69,8 @@ package
 			fotoGuerreroButton.addEventListener(MouseEvent.ROLL_OUT, fgchangeRollOutHandler);
 			fotoGuerreroButton.addEventListener(MouseEvent.CLICK, fgchangeClickHandler);
 			
-			
-
-			
-			var fotosConvecionController:FotosConvencionController = new FotosConvencionController();
+			fotosConvecionController = new FotosConvencionController();
 			fotosConvecionController.init();
-			
-			addChild(fotosConvecionController.view);
 
 			//Button Foto Convencion
 			fotoConvencionButton = new FotoConvencion();
@@ -104,7 +101,6 @@ package
 			introAnimation.x=500;
 			introAnimation.y= 250;
 			
-			
 		}
 
 		//Button Foto Guerrero
@@ -131,7 +127,8 @@ package
 		}
 		
 		private function fcChangeClickHandler(event:MouseEvent):void{
-			trace("Click foto convencion");
+			show(false);
+			addChild(fotosConvecionController.view);
 		}
 		
 		//Button Video Convencion
