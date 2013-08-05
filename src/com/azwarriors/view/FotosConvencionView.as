@@ -1,5 +1,9 @@
 package com.azwarriors.view
 {
+	import com.azwarriors.assets.mcMaskFotoGuerrero_FC;
+	import flash.events.MouseEvent;
+	import com.azwarriors.assets.mcArribaText_FC;
+	import com.azwarriors.assets.mcArribaButton_FC;
 	import flash.events.Event;
 	import com.greensock.TweenLite;
 	import com.azwarriors.vo.ThumbSelectedVO;
@@ -17,6 +21,13 @@ package com.azwarriors.view
 		private var thumbsSelector:FotosConvencionThumbsSelector;
 		private var fotosConvencionTitle:mcFotosConvencionTitle_FC;
 		private var thumbSelectedId:int;
+		
+		private var arribaBtn:mcArribaButton_FC;
+		private var arribaText:mcArribaText_FC;
+		private var arribaTextMask:Sprite;
+		
+		private var scroll:Scroll;
+		
 		public function FotosConvencionView()
 		{
 			imageDisplayer = new FotosConvencionImageDisplayer();
@@ -41,15 +52,53 @@ package com.azwarriors.view
 			thumbsSelector.addEventListener(FotosConvencionThumbsSelector.EVENT_THUMBS_READY, onThumbsReady);
 			thumbsSelector.init(vo);
 			//thumbsSelector.x = 720;
-			//thumbsSelector.x = 40;
+			thumbsSelector.x = 40;
 			//thumbsSelector.y = 155;
 			//addChild(thumbsSelector);
 			thumbSelectedId = 0;
 			imageDisplayer.totalImages = fotosConvencion.fotosConvencionArray.length;
+			
+			arribaText = new mcArribaText_FC();
+			
+			arribaBtn = new mcArribaButton_FC();
+			arribaBtn.y = 500;
+			arribaBtn.addEventListener(MouseEvent.ROLL_OVER, onArribaBtnRollOver);
+			arribaBtn.addEventListener(MouseEvent.ROLL_OUT, onArribaBtnRollOut);
+			arribaBtn.addEventListener(MouseEvent.CLICK, onArribaBtnClickHandler);
+			arribaText.y = arribaBtn.y - arribaText.height - 5;
+			
+			arribaTextMask = new Sprite();
+			arribaTextMask.graphics.beginFill(0x000000);
+			arribaTextMask.graphics.drawRect(0, 0, arribaText.width, arribaText.height);
+			arribaTextMask.graphics.endFill();
+			arribaText.x = 0;
+			arribaTextMask.x = arribaText.x - arribaTextMask.width;
+			arribaTextMask.y = arribaText.y;
+			
+			arribaText.mask = arribaTextMask;
+			
+			
+			addChild(arribaText);
+			addChild(arribaTextMask);
+			addChild(arribaBtn);
+		}
+
+		private function onArribaBtnClickHandler(event:Event):void{
+			scroll.updatePosition(0);
+		}
+		
+		private function onArribaBtnRollOut(event : MouseEvent) : void {
+			//trace("onArribaBtnRollOut");
+			TweenLite.to(arribaTextMask,0.3, {x:(arribaText.x - arribaTextMask.width - 30)});
+		}
+
+		private function onArribaBtnRollOver(event : MouseEvent) : void {
+			//trace("onArribaBtnRollOver");
+			TweenLite.to(arribaTextMask,0.3, {x:arribaText.x });
 		}
 
 		private function onThumbsReady(event:Event):void{
-			var scroll:Scroll = new Scroll();
+			scroll = new Scroll();
 			scroll.init(830, 350, thumbsSelector);	
 			addChild(scroll);
 			scroll.x = 40;

@@ -83,5 +83,17 @@ package com.azwarriors.view {
 				TweenLite.to(content, 0.3, {y:-yPos});
 			}
 		}
+		
+		public function updatePosition(yPos:Number):void{
+			//yPos = yPos * -1 ;
+			//trace("yPos: " + yPos);
+			if(yPos == 0){
+				yPos = 5;
+				TweenLite.to(scroller, 0.3, {y:0});
+				TweenLite.to(content, 0.3, {y:yPos});
+			}else{
+				TweenLite.to(content, 0.3, {y:-yPos});
+			}
+		}
 	}
 }

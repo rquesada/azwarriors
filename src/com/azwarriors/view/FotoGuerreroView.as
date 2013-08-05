@@ -1,4 +1,6 @@
 package com.azwarriors.view {
+	import com.azwarriors.assets.mcPlayButton_FC;
+	import com.azwarriors.assets.mcPauseButton_FC;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	import com.azwarriors.assets.mcFotoGuerreroTitle;
@@ -37,13 +39,22 @@ package com.azwarriors.view {
 		private var isNextProguess:Boolean;
 		private var timer:Timer;
 		
+		private var title:mcFotoGuerreroTitle;
+		
+		private var pauseBtn:mcPauseButton_FC;
+		private var playBtn:mcPlayButton_FC;
+		
+		
+		private var pausePoint:Number;
+		private var isPlaying:Boolean;
+		
 		public function FotoGuerreroView(){
 		}
 		
 		public function init(fotoGuerreroVO:FotoGuerreroVO):void {
 			this.fotoGuerreroVO = fotoGuerreroVO;
 			
-			var title:mcFotoGuerreroTitle = new mcFotoGuerreroTitle();
+			title = new mcFotoGuerreroTitle();
 			title.x = (stage.stageWidth / 2) - (title.width/ 2);
 			title.y = 50; 
 			addChild(title);
@@ -114,15 +125,32 @@ package com.azwarriors.view {
 			mcArrowRight.addEventListener(MouseEvent.CLICK, onNextImageClick);
 			mcArrowLeft.addEventListener(MouseEvent.CLICK, onPreviousImageClick);
 			
-			mcArrowRight.x = carruselContainer.x + maskContainer.width + mcArrowRight.width + 5;
-			mcArrowRight.y = carruselContainer.y + (maskContainer.height / 2) - (mcArrowRight.height/2);
+			mcArrowRight.x = carruselContainer.x + maskContainer.width + mcArrowRight.width;
+			mcArrowRight.y = title.y;//carruselContainer.y + (maskContainer.height / 2) - (mcArrowRight.height/2);
 			
 			mcArrowLeft.y = mcArrowRight.y;
 			
 			currentX = 0;
 			currentImage = 0;
+			
+			playBtn = new mcPlayButton_FC();
+			playBtn.addEventListener(MouseEvent.CLICK, onPlayClickHandler);
+			playBtn.y = maskContainer.y + maskContainer.height - playBtn.height;
+			
+			
+			pauseBtn = new mcPauseButton_FC();
+			pauseBtn.addEventListener(MouseEvent.CLICK, onPauseClickHandler);
+			pauseBtn.y = playBtn.y;
+			pauseBtn.x = playBtn.x + playBtn.width - 20;
+			
+			var maskGradient:mcMaskFotoGuerrero_FC = new mcMaskFotoGuerrero_FC();
+			//addChild(maskGradient);
+			
 			addChild(mcArrowRight);
 			addChild(mcArrowLeft);
+			
+			addChild(playBtn);
+			addChild(pauseBtn);
 			
 			isNextProguess = true;
 			timer = new Timer(5000);
@@ -132,6 +160,24 @@ package com.azwarriors.view {
 			/*var maskLefth:mcMaskFotoGuerrero_FC = new mcMaskFotoGuerrero_FC();
 			addChild(maskLefth);
 			maskLefth.x = carruselContainer.x;*/
+		}
+		
+		private function onPauseClickHandler(event:MouseEvent):void {
+			//if(isPlaying){
+				pausePoint = soundChannel.position;
+				soundChannel.stop();
+			//}
+			
+			timer.stop();
+		
+		}
+		
+		private function onPlayClickHandler(event:MouseEvent):void {
+			//if(isPlaying){
+				
+			//}
+			soundChannel = sound.play(pausePoint);
+			timer.start();
 		}
 
 		private function onNextImageClick(event:MouseEvent):void {
@@ -193,8 +239,9 @@ package com.azwarriors.view {
 		
 		private function onSoundComplete(event:Event):void {
 			soundChannel = sound.play();
+			isPlaying = true;
 		}
-		
+
 		public function stopSong():void {
 			soundChannel.stop();
 		}
