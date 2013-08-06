@@ -1,0 +1,74 @@
+This is the help file for the 3D Image Gallery sold on Flashden.net by ath92.
+
+
+Hi and thanks for buying my file!
+
+
+
+Let's start with something that might make you happy: The 3D Image Gallery is actually very ease to use!
+Basicly, the only things you have to do is to upload the right images and change the gallery.xml file properly,
+which will be explained underneath.
+
+First of all, you will need to put your own images in the right place. I recommend to create a seperate folder for that,
+but it is not needed, for you will have to put the URL of all the images inside the gallery.xml file.
+
+So when you have the right images in tehe right place, let's start changing the gallery.xml file. 
+The structure is something like this:
+
+<gallery>
+	<category name="This Name">
+		<item url="images/image.jpg" title="A Flower">
+		<![CDATA[This is the description(which can contain HTML!)]]>
+		</item>
+	</category>
+</gallery>
+
+As you have probably seen in the preview file, the gallery can contain different categories. Every category is defined
+by the <category> tag. The name attribute of this tag changes the name of the gallery, which you will only see 
+in the categories sidebar.
+
+To make the gallery work for you, you will have to put an <item> tag (like the 3rd line of the XML-script above) for every 
+image you have in the gallery.xml file. The url you put into the XML file can be a relative one (for example images/image.jpg)
+But you can also use an absolute url (for example: http://www.flasden.net/image.jpg). The url is probably case-sensitive,
+but that depends on the server you are running the application on. Ofcourse, you will have to put the right <item> tag
+inside the right <gallery> tag.
+
+So the url handles the loading of the image, but there are two more things: "title" and some text that's between the
+<item> and </item> tags. The function of the "title" parameter is pretty obvious, it's just the title of the image.
+Change it, and you'll be able to see the change when you press the info button underneath an image inside the gallery.
+
+The text between the <item> and </item> tags is the discription of the text. This description is placed between <![CDATA[
+and ]]> tags, which makes it possible to put HTML into the text. If you remove it, you won't be able to do that anymore,
+but some of you might not need it anyway.
+
+The description text can parse simple HTML and CSS. The CSS file is called infoStyleSheet.css. To change this file, basic
+knowledge of CSS is recommended. However, since CSS is a very easy language you will probably be able to change some things,
+although you haven't got any CSS knowledge at all. If you want to learn more about CSS, I recommend to use this link:
+http://www.w3.org/Style/LieBos2e/enter/
+
+
+Well, that's about everything you can change within the XML and CSS files. To change more things, you will have to open
+the .FLA file. If you don't have Flash, but still want to change something you can't change through the XMl file,
+please post a comment on Flashden and I might fix it. If I make an update that might help some people out, 
+I'll make it available to everyone through a free update, although I can't garuantee I will be able to make updates 
+in the long run.
+
+To be able to change the FLA file, you'll first have to install the papervision3d and GTween classes. To do so, first
+unwrap the files from the .zip archive and put the org and com folders somewhere easy to find. Then in Flash, go to
+edit->preferences and press actionscript and then actionscript 3.0 settings. Press the + sign and add the url of the folder
+in which you put the com and org folders. So with that done, you can export the movie without making it not work anymore.
+
+Now you can change just about everything in the file, but I'll explain how some basic things are done. For example the
+background, which is just a MovieClip which you can change in the library. It will automatically upscale to the browser
+size, so if you use a bitmap image i recommend a large resolution.
+
+The color of the GUI is also very easy to change with only very little knowledge of Flash, and I'm sure you'll be able 
+to find out how this works.
+
+
+
+If you happen to have any other questions, just ask them and I'll probably answer them! If I don't, just send me an email
+and I will ;)
+
+Greetings, 
+Ath92
