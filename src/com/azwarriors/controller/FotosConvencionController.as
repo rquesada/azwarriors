@@ -31,8 +31,8 @@ package com.azwarriors.controller
 			preloader = new mcPreloader_FC();
 			preloader.alpha = 0;
 			view.addChild(preloader);
-			preloader.x = view.stage.stageWidth/2;
-			preloader.y = view.stage.stageHeight/2;
+			preloader.x = 1000/2;
+			preloader.y = 600/2;
 			TweenLite.to(preloader,0.5,{alpha:1});
 			
 			MainModel.getInstance().addEventListener(MainModel.MODEL_READY,onModelReadyHandler);

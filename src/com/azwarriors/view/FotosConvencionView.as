@@ -93,7 +93,6 @@ package com.azwarriors.view
 		}
 
 		private function onArribaBtnRollOver(event : MouseEvent) : void {
-			//trace("onArribaBtnRollOver");
 			TweenLite.to(arribaTextMask,0.3, {x:arribaText.x });
 		}
 

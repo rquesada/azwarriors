@@ -9,6 +9,7 @@ package
 	import com.view.VideoConvencionView;
 	
 	import dev.home.AZwarriorAnimation;
+	import dev.home.AZwarriorAnimation2;
 	import dev.home.Background;
 	import dev.home.ButtonFotoGuerrero;
 	import dev.home.FotoConvencion;
@@ -29,10 +30,16 @@ package
 		private var videosConvencionButton: videosConvencion;
 		private var fotoConvencionButton:FotoConvencion;
 		private var videoConvencionButton: videosConvencion;
-		private var introAnimation: AZwarriorAnimation;
+		private var introAnimation: AZwarriorAnimation2;
 		private var fotosConvecionController:FotosConvencionController;
 		private var fotoGuerreroController:FotoGuerreroController;
 		private var footerView:FooterView;
+		
+		private var lastView:String;
+		private var inicioView:String = "inicioView";
+		private var guerreroView:String = "guerreroView";
+		private var galeriaView:String = "galeriaView";
+		private var videosView:String = "videosView";
 		
 		//View
 		private var videoConvencionView:VideoConvencionView;
@@ -45,6 +52,7 @@ package
 		
 		private function show(shouldBeHide:Boolean):void{
 			if(shouldBeHide){
+				
 				addChild(introAnimation);
 				addChild(fotoGuerreroButton); 
 				addChild(fotoConvencionButton);
@@ -52,6 +60,8 @@ package
 				introAnimation.gotoAndPlay(1);
 				if(this.contains(footerView))
 					removeChild(footerView);
+				
+				lastView = inicioView;
 				
 			}else{
 				removeChild(fotoGuerreroButton); 
@@ -102,8 +112,15 @@ package
 			videoConvencionView.x =0;
 			videoConvencionView.y =0;
 			
+			//Galeria
+			fotosConvecionController = new FotosConvencionController();
+			fotosConvecionController.init();
+			
+			//Foto Guerrero
+//			fotoGuerreroController = new FotoGuerreroController();
+			
 			//Animation
-			introAnimation = new AZwarriorAnimation();
+			introAnimation = new AZwarriorAnimation2();
 			introAnimation.x=500;
 			introAnimation.y= 250;
 			
@@ -117,18 +134,44 @@ package
 			footerView.addEventListener("goVideos", goVideosHandler);
 			
 		}
+		
+		
+		private function hideLastView():void{
+			if(lastView == inicioView){
+				show(false);
+			}else if (lastView == guerreroView){
+				fotoGuerreroController.stopView();
+				removeChild(fotoGuerreroController.view);
+			}else if(lastView == galeriaView){
+				removeChild(fotosConvecionController.view);
+			}else if (lastView == videosView){
+				videoConvencionView.view.stopView();
+				removeChild(videoConvencionView);
+			}
+		}
+		
 		//Menu events
 		private function goInicioHandler(event:MenuEve):void{
+			hideLastView();
 			show(true);
+			
 		}
 		private function goGuerreroHandler(event:MenuEve):void{
-			
+//			hideLastView();
+//			fotoGuerreroController = new FotoGuerreroController();
+//			fotoGuerreroController.init();
+//			addChild(fotoGuerreroController.view);
+//			lastView= guerreroView;
 		}
 		private function goGaleriaHandler(event:MenuEve):void{
-			
+			hideLastView();
+			addChild(fotosConvecionController.view);
+			lastView = galeriaView;
 		}
 		private function goVideosHandler(event:MenuEve):void{
-			
+			hideLastView();
+			addChild(videoConvencionView);
+			lastView = videosView;
 		}
 
 		//Button Foto Guerrero
@@ -141,17 +184,12 @@ package
 		}
 		
 		private function fgchangeClickHandler(event:MouseEvent):void{
-			trace("Click foto guerrero");
-			addChild(fotoGuerreroController.view);
-			fotoGuerreroController.init();
-			show(false);
-
+			goGuerreroHandler(null);
 		}
 
 		//Button Foto Convencion
 		private function fcChangeRollOverHandler(event:MouseEvent):void{
 			fotoConvencionButton.gotoAndPlay(2);
-
 		}
 		
 		private function fcChangeRollOutHandler(event:MouseEvent):void{
@@ -159,12 +197,7 @@ package
 		}
 		
 		private function fcChangeClickHandler(event:MouseEvent):void{
-			show(false);
-			fotosConvecionController = new FotosConvencionController();
-			addChild(fotosConvecionController.view);
-			fotosConvecionController.init();
-			
-			
+			goGaleriaHandler(null);
 		}
 		
 		//Button Video Convencion
@@ -177,9 +210,7 @@ package
 		}
 		
 		private function vcChangeClickHandler(event:MouseEvent):void{
-			trace("Click video convencion");
-			show(false);
-			addChild(videoConvencionView);
+			goVideosHandler(null);
 		}
 		
 	}
