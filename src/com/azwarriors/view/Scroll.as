@@ -91,6 +91,11 @@ package com.azwarriors.view {
 				yPos = 5;
 				TweenLite.to(scroller, 0.3, {y:0});
 				TweenLite.to(content, 0.3, {y:yPos});
+			}else  if (yPos == (line.y + line.height - scroller.height)) {
+				trace("End of scroll");
+				var pos:Number = 0;
+				pos = mask.y - content.height + mask.height;
+				TweenLite.to(content, 0.3, {y:-yPos});
 			}else{
 				TweenLite.to(content, 0.3, {y:-yPos});
 			}
