@@ -1,4 +1,7 @@
 package com.azwarriors.controller {
+	import com.greensock.TweenLite;
+	import flash.display.Sprite;
+	import com.azwarriors.assets.mcPreloader_FC;
 	import com.azwarriors.vo.FotoGuerreroVO;
 	import com.azwarriors.view.FotoGuerreroView;
 	import flash.events.Event;
@@ -8,27 +11,50 @@ package com.azwarriors.controller {
 	 * @author EstebanChavarria
 	 */
 	public class FotoGuerreroController extends EventDispatcher {
-		public var view:FotoGuerreroView;
-		
+		public var view:Sprite;
+		public var mainView:FotoGuerreroView;
+		private var preloader:mcPreloader_FC;
 		public function FotoGuerreroController(){
-			view = new FotoGuerreroView();
+			view = new Sprite();
 		}
 		
 		public function init():void{
 			//trace("FotoGuerreroController - init");
 			MainModel.getInstance().addEventListener(MainModel.MODEL_READY, onModelDataReady);
 			MainModel.getInstance().loadFotoGuerreroVO();
+			
+			
+			
+			preloader = new mcPreloader_FC();
+			preloader.alpha = 0;
+			view.addChild(preloader);
+			preloader.x = (view.stage.stageWidth / 2);
+			preloader.y = (view.stage.stageHeight / 2); 
+			
+			TweenLite.to(preloader,0.5,{alpha:1});
+			
 			//view = new FotoGuerreroView();
 		}
 		
 		public function onModelDataReady(event:Event):void{
-			MainModel.getInstance().removeEventListener(MainModel.MODEL_READY, onModelDataReady);	
-			view.init(MainModel.getInstance().data as FotoGuerreroVO);
+			TweenLite.to(preloader,0.5,{alpha:0, onComplete:removePreloader});
+			
+			MainModel.getInstance().removeEventListener(MainModel.MODEL_READY, onModelDataReady);
+			mainView = new FotoGuerreroView();	
+			view.addChild(mainView);
+			mainView.init(MainModel.getInstance().data as FotoGuerreroVO);
+			
+			
 			//trace("FotoGuerreroController - onModelDataReady");
 		}
 		
-		public function stopView():void{
-			view.stopSong();
+		private function removePreloader():void{
+			view.removeChild(preloader);
+			preloader = null;
+		}
+
+		public function stopView():void {
+			mainView.stopSong();
 		}
 		
 	}

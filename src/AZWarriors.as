@@ -142,9 +142,10 @@ package
 		
 		private function fgchangeClickHandler(event:MouseEvent):void{
 			trace("Click foto guerrero");
+			addChild(fotoGuerreroController.view);
 			fotoGuerreroController.init();
 			show(false);
-			addChild(fotoGuerreroController.view);
+
 		}
 
 		//Button Foto Convencion
@@ -158,9 +159,12 @@ package
 		}
 		
 		private function fcChangeClickHandler(event:MouseEvent):void{
-			fotosConvecionController.init();
 			show(false);
+			fotosConvecionController = new FotosConvencionController();
 			addChild(fotosConvecionController.view);
+			fotosConvecionController.init();
+			
+			
 		}
 		
 		//Button Video Convencion

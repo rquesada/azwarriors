@@ -12,6 +12,7 @@ package com.azwarriors.view {
 		private var line:Sprite;
 		private var content:Sprite;
 		public function Scroll() {
+			trace("SCROLL");
 		}
 		
 		public function init(maskWidth:int, maskHeight:int, content:Sprite):void {
@@ -24,18 +25,18 @@ package com.azwarriors.view {
 			maskSp.graphics.endFill();
 			
 			line = new Sprite();
-			line.graphics.beginFill(0x000000);
-			line.graphics.drawRect(0, 0, 3, maskHeight);
+			line.graphics.beginFill(0xbb8501);
+			line.graphics.drawRect(0 , 0, 21, maskHeight);
 			line.graphics.endFill();
 			
 			scroller = new Sprite();
-			scroller.graphics.beginFill(0xff0000);
-			scroller.graphics.drawRect(0, 0, 15, 15);
+			scroller.graphics.beginFill(0x791b4f);
+			scroller.graphics.drawRect(0, 0, 21, 15);
 			scroller.graphics.endFill();
 			scroller.addEventListener(MouseEvent.MOUSE_DOWN, onScrollerMouseDownHandler);
 			
 			line.x = maskSp.x + maskSp.width + 5;
-			scroller.x =  maskSp.x + maskSp.width + 5;
+			scroller.x = (line.x + (line.width/2)) - (scroller.width / 2);
 			
 			addChild(content);
 			addChild(maskSp);
@@ -53,7 +54,7 @@ package com.azwarriors.view {
 		}
 		
 		private function onMouseMoveHandler(event:MouseEvent):void {
-			scroller.x =  maskSp.x + maskSp.width + 5;
+			scroller.x = (line.x + (line.width/2)) - (scroller.width / 2);
 			if(scroller.y > (line.y + line.height - scroller.height)) {
 				scroller.y  = (line.y + line.height - scroller.height);
 			}
@@ -73,20 +74,32 @@ package com.azwarriors.view {
 		private function updateContentPosition():void{
 			//var yPos:Number = (scroller.y * (content.height - maskSp.height)) / line.height;
 			var yPos:Number = (scroller.y * (content.height)) / line.height;
+			trace("yPos: " + yPos);
+			
+			var pos:Number  = (line.y + line.height - scroller.height);
+			trace("pos: "+pos);
 			
 			//yPos = yPos * -1 ;
 			//trace("yPos: " + yPos);
 			if(yPos == 0){
 				yPos = 5;
 				TweenLite.to(content, 0.3, {y:yPos});
-			}else{
+			}else  if (pos == scroller.y) {
+				trace("End of scroll");
+				var pos:Number = 0;
+				pos = maskSp.y - content.height + maskSp.height;
+				TweenLite.to(content, 0.3, {y:pos});
+			}
+			else{
 				TweenLite.to(content, 0.3, {y:-yPos});
 			}
 		}
 		
 		public function updatePosition(yPos:Number):void{
 			//yPos = yPos * -1 ;
-			//trace("yPos: " + yPos);
+			trace("yPos: " + yPos);
+			var pos:Number  = (line.y + line.height - scroller.height);
+			trace("pos: "+pos);
 			if(yPos == 0){
 				yPos = 5;
 				TweenLite.to(scroller, 0.3, {y:0});
@@ -94,8 +107,11 @@ package com.azwarriors.view {
 			}else  if (yPos == (line.y + line.height - scroller.height)) {
 				trace("End of scroll");
 				var pos:Number = 0;
-				pos = mask.y - content.height + mask.height;
-				TweenLite.to(content, 0.3, {y:-yPos});
+				trace("End of scroll 2");
+				pos = maskSp.y - content.height + maskSp.height;
+				trace("End of scroll 3");
+				TweenLite.to(content, 0.3, {y:pos});
+				trace("End of scroll 4");
 			}else{
 				TweenLite.to(content, 0.3, {y:-yPos});
 			}

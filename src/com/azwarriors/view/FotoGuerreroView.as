@@ -1,4 +1,5 @@
 package com.azwarriors.view {
+	import com.azwarriors.assets.mcGradient_FC;
 	import com.azwarriors.assets.mcPlayButton_FC;
 	import com.azwarriors.assets.mcPauseButton_FC;
 	import flash.events.TimerEvent;
@@ -61,7 +62,7 @@ package com.azwarriors.view {
 			
 			maskContainer = new Sprite();
 			maskContainer.graphics.beginFill(0xffffff);
-			maskContainer.graphics.drawRect(0, 0, 700, 500);
+			maskContainer.graphics.drawRect(0, 0, 1000, 500);
 			maskContainer.graphics.endFill();
 			
 			
@@ -125,17 +126,20 @@ package com.azwarriors.view {
 			mcArrowRight.addEventListener(MouseEvent.CLICK, onNextImageClick);
 			mcArrowLeft.addEventListener(MouseEvent.CLICK, onPreviousImageClick);
 			
-			mcArrowRight.x = carruselContainer.x + maskContainer.width + mcArrowRight.width;
+			mcArrowRight.x = title.x + title.width + mcArrowRight.width;
 			mcArrowRight.y = title.y;//carruselContainer.y + (maskContainer.height / 2) - (mcArrowRight.height/2);
 			
 			mcArrowLeft.y = mcArrowRight.y;
+			
+			mcArrowLeft.x = title.x - (mcArrowLeft.width);
 			
 			currentX = 0;
 			currentImage = 0;
 			
 			playBtn = new mcPlayButton_FC();
 			playBtn.addEventListener(MouseEvent.CLICK, onPlayClickHandler);
-			playBtn.y = maskContainer.y + maskContainer.height - playBtn.height;
+			playBtn.y = maskContainer.y + maskContainer.height + playBtn.height;
+			playBtn.x = 70;
 			
 			
 			pauseBtn = new mcPauseButton_FC();
@@ -143,8 +147,16 @@ package com.azwarriors.view {
 			pauseBtn.y = playBtn.y;
 			pauseBtn.x = playBtn.x + playBtn.width - 20;
 			
-			var maskGradient:mcMaskFotoGuerrero_FC = new mcMaskFotoGuerrero_FC();
-			//addChild(maskGradient);
+			var maskGradient:mcGradient_FC = new mcGradient_FC();
+			maskGradient.y = carruselContainer.y - 20;
+			addChild(maskGradient);
+			
+			maskGradient = new mcGradient_FC();
+			maskGradient.scaleX = -1;
+			maskGradient.y = carruselContainer.y - 20;
+			maskGradient.x = maskContainer.x + maskContainer.width;
+			addChild(maskGradient);
+			
 			
 			addChild(mcArrowRight);
 			addChild(mcArrowLeft);
@@ -186,7 +198,7 @@ package com.azwarriors.view {
 				timer.start();
 			}
 			currentImage++;
-			currentX -= 750;
+			currentX -= maskContainer.width + 50;
 			TweenLite.to(container, 2, {x:currentX,ease:Quint.easeOut});
 			
 			if(currentImage == (imagesArray.length-1)){
@@ -211,7 +223,7 @@ package com.azwarriors.view {
 				timer.start();
 			}
 			currentImage--;
-			currentX += 750;
+			currentX += maskContainer.width + 50;
 			TweenLite.to(container, 2, {x:currentX,ease:Quint.easeOut});	
 				
 			if(currentImage == 0 ) {
