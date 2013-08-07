@@ -3,6 +3,7 @@ package
 
 	import com.azwarriors.controller.FotoGuerreroController;
 	import com.azwarriors.controller.FotosConvencionController;
+	import com.azwarriors.controller.GaleriaController;
 	import com.azwarriors.events.MenuEve;
 	import com.azwarriors.footer.FooterView;
 	import com.azwarriors.view.Scroll;
@@ -40,6 +41,7 @@ package
 		private var guerreroView:String = "guerreroView";
 		private var galeriaView:String = "galeriaView";
 		private var videosView:String = "videosView";
+		private var galeriaController:GaleriaController;
 		
 		//View
 		private var videoConvencionView:VideoConvencionView;
@@ -118,6 +120,8 @@ package
 			
 			//Foto Guerrero
 //			fotoGuerreroController = new FotoGuerreroController();
+			galeriaController = new GaleriaController();
+			galeriaController.view.init();
 			
 			//Animation
 			introAnimation = new AZwarriorAnimation2();
@@ -135,13 +139,13 @@ package
 			
 		}
 		
-		
 		private function hideLastView():void{
 			if(lastView == inicioView){
 				show(false);
 			}else if (lastView == guerreroView){
-				fotoGuerreroController.stopView();
-				removeChild(fotoGuerreroController.view);
+				//fotoGuerreroController.stopView();
+				//removeChild(fotoGuerreroController.view);
+				removeChild(galeriaController.view);
 			}else if(lastView == galeriaView){
 				removeChild(fotosConvecionController.view);
 			}else if (lastView == videosView){
@@ -157,11 +161,12 @@ package
 			
 		}
 		private function goGuerreroHandler(event:MenuEve):void{
-//			hideLastView();
+			hideLastView();
 //			fotoGuerreroController = new FotoGuerreroController();
 //			fotoGuerreroController.init();
 //			addChild(fotoGuerreroController.view);
-//			lastView= guerreroView;
+			addChild(galeriaController.view);
+			lastView= guerreroView;
 		}
 		private function goGaleriaHandler(event:MenuEve):void{
 			hideLastView();
