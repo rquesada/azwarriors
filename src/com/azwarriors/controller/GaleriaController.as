@@ -15,7 +15,7 @@ package com.azwarriors.controller
 		
 		private function create():void{
 			view = new GaleriaView();
-			view.init();
+			//view.init();
 		}
 		
 	}

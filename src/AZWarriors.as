@@ -121,6 +121,7 @@ package
 			//Foto Guerrero
 //			fotoGuerreroController = new FotoGuerreroController();
 			galeriaController = new GaleriaController();
+			//addChild(galeriaController.view)
 			galeriaController.view.init();
 			
 			//Animation

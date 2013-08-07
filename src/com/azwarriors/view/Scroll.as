@@ -16,7 +16,7 @@ package com.azwarriors.view {
 		
 		
 		public function Scroll() {
-			trace("SCROLL");
+		
 		}
 		
 		public function init(maskWidth:int, maskHeight:int, content:Sprite):void {
