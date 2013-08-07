@@ -219,10 +219,11 @@ package
 			galeriaController.view.x = 0;
 			
 			inicioBtn = new btnInicio_FC();
+			inicioBtn.buttonMode=true;
 			addChild(inicioBtn);
 			inicioBtn.addEventListener(MouseEvent.CLICK, onBtnInicio);
-			inicioBtn.x = 800;
-			inicioBtn.y = 570;
+			inicioBtn.x = 850;
+			inicioBtn.y = 60;
 			
 			//galeriaController.view.height = 2500;
 			
