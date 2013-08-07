@@ -1,8 +1,8 @@
 package com.azwarriors.view {
-	import com.jessamin.controls.VerticalScrollbar;
 	import com.greensock.TweenLite;
-	import flash.events.MouseEvent;
+
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 
 	/**
 	 * @author EstebanChavarria
@@ -13,7 +13,7 @@ package com.azwarriors.view {
 		private var line:Sprite;
 		private var content:Sprite;
 		
-		private var scrollBar:VerticalScrollbar;
+		
 		
 		public function Scroll() {
 			trace("SCROLL");
