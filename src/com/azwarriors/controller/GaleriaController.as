@@ -9,7 +9,7 @@ package com.azwarriors.controller
 		public var view:GaleriaView;
 		public function GaleriaController()
 		{
-			super();
+			
 			create();
 	 	}
 		

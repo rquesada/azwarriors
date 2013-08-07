@@ -8,13 +8,14 @@ package com.azwarriors.view
 	
 	public class GaleriaView extends Sprite
 	{
+		private var mLoader:Loader
 		public function GaleriaView()
 		{
-			super();
+			
 		}
 		
 		public function init():void{
-			var mLoader:Loader = new Loader();
+			mLoader = new Loader();
 			var mRequest:URLRequest = new URLRequest("./galeria/index.swf");
 			mLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onCompleteHandler);
 			mLoader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, onProgressHandler);
@@ -29,9 +30,9 @@ package com.azwarriors.view
 		
 		private function  onCompleteHandler(loadEvent:Event):void
 		{
-			addChild(loadEvent.target.content);
+			addChild(mLoader);
 		}
-		
+
 		public function remove():void{
 			parent.removeChild(this);
 		}

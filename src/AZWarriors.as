@@ -216,6 +216,7 @@ package
 //			fotoGuerreroController.init();
 //			addChild(fotoGuerreroController.view);
 			addChild(galeriaController.view);
+			galeriaController.view.x = 0;
 			
 			inicioBtn = new btnInicio_FC();
 			addChild(inicioBtn);
@@ -233,7 +234,8 @@ package
 			//removeChild(galeriaController.view);
 			//removeChild(galeriaController.view);
 			try{
-				galeriaController.view.remove();
+				galeriaController.view.x = stage.stageWidth + 10000;
+				//removeChild(galeriaController.view);
 			}catch(e:Error){
 			
 			}
