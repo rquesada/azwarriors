@@ -1,22 +1,18 @@
 package
 {
 
-	import flash.errors.IOError;
-	import flashx.textLayout.formats.Category;
 	import com.azwarriors.assets.btnInicio_FC;
-	import flash.display.StageDisplayState;
-	import flash.system.fscommand;
-	import flash.events.Event;
 	import com.azwarriors.assets.mcCloseBtn_FC;
-	import flash.events.FullScreenEvent;
-	import com.azwarriors.model.MainModel;
-	import com.greensock.layout.ScaleMode;
+	import com.azwarriors.assets.mcPauseButton_FC;
+	import com.azwarriors.assets.mcPlayButton_FC;
 	import com.azwarriors.controller.FotoGuerreroController;
 	import com.azwarriors.controller.FotosConvencionController;
 	import com.azwarriors.controller.GaleriaController;
 	import com.azwarriors.events.MenuEve;
 	import com.azwarriors.footer.FooterView;
+	import com.azwarriors.model.MainModel;
 	import com.azwarriors.view.Scroll;
+	import com.greensock.layout.ScaleMode;
 	import com.view.VideoConvencionView;
 	
 	import dev.home.AZwarriorAnimation;
@@ -27,9 +23,19 @@ package
 	import dev.home.videosConvencion;
 	
 	import flash.display.Sprite;
+	import flash.display.StageDisplayState;
 	import flash.display.StageScaleMode;
+	import flash.errors.IOError;
+	import flash.events.Event;
+	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.net.URLRequest;
 	import flash.profiler.showRedrawRegions;
+	import flash.system.fscommand;
+	
+	import flashx.textLayout.formats.Category;
 
 	
 	[SWF (backgroundColor='#f4d7b3',  frameRate='30', width='1000', height='715') ]
@@ -52,24 +58,24 @@ package
 		private var galeriaView:String = "galeriaView";
 		private var videosView:String = "videosView";
 		private var galeriaController:GaleriaController;
-		
 		private var closeBtn:mcCloseBtn_FC;
-		//View
 		private var videoConvencionView:VideoConvencionView;
-		
 		private var inicioBtn:btnInicio_FC;
 		
-		public function AZWarriors()
-		{
-			//stage.scaleMode = StageScaleMode.EXACT_FIT;
-			
+		private var pauseBtn:mcPauseButton_FC;
+		private var playBtn:mcPlayButton_FC;
+		private var pausePoint:Number;
+		private var isPlaying:Boolean;
+		private var sound:Sound;
+		private var soundChannel:SoundChannel;
+		
+		public function AZWarriors(){
 			create();	
 			show(true);
 		}
 		
 		private function show(shouldBeHide:Boolean):void{
 			if(shouldBeHide){
-				
 				addChild(introAnimation);
 				addChild(fotoGuerreroButton); 
 				addChild(fotoConvencionButton);
@@ -77,9 +83,7 @@ package
 				introAnimation.gotoAndPlay(1);
 				if(this.contains(footerView))
 					removeChild(footerView);
-				
 				lastView = inicioView;
-				
 			}else{
 				removeChild(fotoGuerreroButton); 
 				removeChild(fotoConvencionButton);
@@ -93,10 +97,8 @@ package
 			//Background
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEventHandler);
-			
 			MainModel.getInstance().half_height = (stage.stageHeight/2);
 			MainModel.getInstance().half_width = (stage.stageWidth/2);
-			
 			MainModel.getInstance().modalWidth = stage.stageWidth;
 			MainModel.getInstance().modalHeight = stage.stageHeight;
 			MainModel.getInstance().modalX = 0;
@@ -115,7 +117,6 @@ package
 			fotoGuerreroButton.addEventListener(MouseEvent.CLICK, fgchangeClickHandler);
 			fotoGuerreroController = new FotoGuerreroController();
 			
-			
 			//Button Foto Convencion
 			fotoConvencionButton = new FotoConvencion();
 			fotoConvencionButton.x = 520;
@@ -124,7 +125,6 @@ package
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OVER,fcChangeRollOverHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.ROLL_OUT, fcChangeRollOutHandler);
 			fotoConvencionButton.addEventListener(MouseEvent.CLICK, fcChangeClickHandler);
-			 
 			
 			//Button Video Convencion
 			videoConvencionButton = new videosConvencion();
@@ -145,9 +145,7 @@ package
 			fotosConvecionController.init();
 			
 			//Foto Guerrero
-//			fotoGuerreroController = new FotoGuerreroController();
 			galeriaController = new GaleriaController();
-			//addChild(galeriaController.view)
 			galeriaController.view.init();
 			
 			//Animation
@@ -166,14 +164,54 @@ package
 			
 			closeBtn = new mcCloseBtn_FC();
 			closeBtn.addEventListener(MouseEvent.CLICK, onCloseBtnMouseClick);
+			
+			//
+			soundChannel = new SoundChannel();
+			sound = new Sound();
+			sound.addEventListener(Event.COMPLETE, onSoundComplete);
+			sound.load(new URLRequest("sounds/fotoGuerrero/Daddy_Yankee_Limbo.mp3"));
+			
+			playBtn = new mcPlayButton_FC();
+			playBtn.addEventListener(MouseEvent.CLICK, onPlayClickHandler);
+			playBtn.y = playBtn.height;
+			playBtn.x = 110;
+			playBtn.buttonMode = true;
+			
+			pauseBtn = new mcPauseButton_FC();
+			pauseBtn.buttonMode=true;
+			pauseBtn.addEventListener(MouseEvent.CLICK, onPauseClickHandler);
+			pauseBtn.y = playBtn.y;
+			pauseBtn.x = playBtn.x + playBtn.width - 20;
+			
+			addChild(playBtn);
+			addChild(pauseBtn);
+		}
+		
+		private function onPauseClickHandler(event:MouseEvent):void {
+			if(isPlaying){
+				pausePoint = soundChannel.position;
+				soundChannel.stop();
+				isPlaying = false;
+			}
+		}
+		
+		private function onPlayClickHandler(event:MouseEvent):void {
+			if(!isPlaying){
+				soundChannel = sound.play(pausePoint);
+				isPlaying= true;
+			}
+			
+		}
+		
+		private function onSoundComplete(event:Event):void {
+			soundChannel = sound.play();
+			isPlaying = true;
 		}
 
 		private function onCloseBtnMouseClick(event : MouseEvent) : void {
 			stage.displayState = StageDisplayState.NORMAL;
 			//fscommand("quit");
-			 
-			
-		}
+			}
 
 		private function addedToStageHandler(event : Event) : void {
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEventHandler);
@@ -212,37 +250,26 @@ package
 		}
 		private function goGuerreroHandler(event:MenuEve):void{
 			hideLastView();
-//			fotoGuerreroController = new FotoGuerreroController();
-//			fotoGuerreroController.init();
-//			addChild(fotoGuerreroController.view);
 			addChild(galeriaController.view);
 			galeriaController.view.x = 0;
-			
 			inicioBtn = new btnInicio_FC();
 			inicioBtn.buttonMode=true;
 			addChild(inicioBtn);
 			inicioBtn.addEventListener(MouseEvent.CLICK, onBtnInicio);
 			inicioBtn.x = 850;
 			inicioBtn.y = 60;
-			
-			//galeriaController.view.height = 2500;
-			
 			lastView= guerreroView;
+			addChild(playBtn);
+			addChild(pauseBtn);
 		}
 
 		private function onBtnInicio(event : MouseEvent) : void {
 			removeChild(inicioBtn);
-			//removeChild(galeriaController.view);
-			//removeChild(galeriaController.view);
 			try{
 				galeriaController.view.x = stage.stageWidth + 10000;
-				//removeChild(galeriaController.view);
 			}catch(e:Error){
-			
 			}
-			//hideLastView();
 			show(true);
-			//removeChild(galeriaController.view);
 		}
 
 		private function goGaleriaHandler(event:MenuEve):void{
