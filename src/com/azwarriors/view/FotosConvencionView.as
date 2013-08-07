@@ -98,8 +98,9 @@ package com.azwarriors.view
 
 		private function onThumbsReady(event:Event):void{
 			scroll = new Scroll();
-			scroll.init(870, 350, thumbsSelector);	
 			addChild(scroll);
+			scroll.init(870, 350, thumbsSelector);	
+			
 			scroll.x = 40;
 			scroll.y = 155;
 		}

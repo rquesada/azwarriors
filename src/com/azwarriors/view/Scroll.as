@@ -1,4 +1,5 @@
 package com.azwarriors.view {
+	import com.jessamin.controls.VerticalScrollbar;
 	import com.greensock.TweenLite;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite;
@@ -11,6 +12,9 @@ package com.azwarriors.view {
 		private var scroller:Sprite;
 		private var line:Sprite;
 		private var content:Sprite;
+		
+		private var scrollBar:VerticalScrollbar;
+		
 		public function Scroll() {
 			trace("SCROLL");
 		}
@@ -45,6 +49,9 @@ package com.azwarriors.view {
 			
 			content.mask = maskSp;
 			content.x = 1;
+			
+			//var scrollbar:VerticalScrollbar = new VerticalScrollbar(stage, line, scroller, maskSp, content);
+			
 		}
 
 		private function onScrollerMouseDownHandler(evenr:MouseEvent):void {
@@ -72,49 +79,19 @@ package com.azwarriors.view {
 		}
 		
 		private function updateContentPosition():void{
-			//var yPos:Number = (scroller.y * (content.height - maskSp.height)) / line.height;
-			var yPos:Number = (scroller.y * (content.height)) / line.height;
-			trace("yPos: " + yPos);
-			
-			var pos:Number  = (line.y + line.height - scroller.height);
-			trace("pos: "+pos);
-			
-			//yPos = yPos * -1 ;
-			//trace("yPos: " + yPos);
-			if(yPos == 0){
-				yPos = 5;
-				TweenLite.to(content, 0.3, {y:yPos});
-			}else  if (pos == scroller.y) {
-				trace("End of scroll");
-				var pos:Number = 0;
-				pos = maskSp.y - content.height + maskSp.height;
-				TweenLite.to(content, 0.3, {y:pos});
-			}
-			else{
-				TweenLite.to(content, 0.3, {y:-yPos});
-			}
+			var scrollPercent:Number = scroller.y / (line.height-scroller.height);
+			var contentY:Number = maskSp.y - ((content.height - maskSp.height) * scrollPercent);
+			TweenLite.to(content, 0.3, {y:contentY});
 		}
-		
+
 		public function updatePosition(yPos:Number):void{
 			//yPos = yPos * -1 ;
-			trace("yPos: " + yPos);
-			var pos:Number  = (line.y + line.height - scroller.height);
-			trace("pos: "+pos);
-			if(yPos == 0){
-				yPos = 5;
-				TweenLite.to(scroller, 0.3, {y:0});
-				TweenLite.to(content, 0.3, {y:yPos});
-			}else  if (yPos == (line.y + line.height - scroller.height)) {
-				trace("End of scroll");
-				var pos:Number = 0;
-				trace("End of scroll 2");
-				pos = maskSp.y - content.height + maskSp.height;
-				trace("End of scroll 3");
-				TweenLite.to(content, 0.3, {y:pos});
-				trace("End of scroll 4");
-			}else{
-				TweenLite.to(content, 0.3, {y:-yPos});
-			}
+			TweenLite.to(scroller, 0.5, {y:yPos});
+			var scrollPercent:Number = yPos / (line.height-scroller.height);
+			var contentY:Number = maskSp.y - ((content.height - maskSp.height) * scrollPercent);
+			TweenLite.to(content, 0.5, {y:contentY});
+			
+			
 		}
 	}
 }
