@@ -1,6 +1,8 @@
 package
 {
 
+	import com.azwarriors.model.MainModel;
+	import com.greensock.layout.ScaleMode;
 	import com.azwarriors.controller.FotoGuerreroController;
 	import com.azwarriors.controller.FotosConvencionController;
 	import com.azwarriors.controller.GaleriaController;
@@ -48,6 +50,8 @@ package
 		
 		public function AZWarriors()
 		{
+			//stage.scaleMode = StageScaleMode.EXACT_FIT;
+			
 			create();	
 			show(true);
 		}
@@ -76,6 +80,15 @@ package
 		private function create():void{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			//Background
+			
+			MainModel.getInstance().half_height = (stage.stageHeight/2);
+			MainModel.getInstance().half_width = (stage.stageWidth/2);
+			
+			MainModel.getInstance().modalWidth = stage.stageWidth;
+			MainModel.getInstance().modalHeight = stage.stageHeight;
+			MainModel.getInstance().modalX = 0;
+			MainModel.getInstance().modalY = 0;
+			
 			mainBackground = new Background();
 			addChild(mainBackground);
 			
@@ -167,6 +180,8 @@ package
 //			fotoGuerreroController.init();
 //			addChild(fotoGuerreroController.view);
 			addChild(galeriaController.view);
+			//galeriaController.view.height = 2500;
+			
 			lastView= guerreroView;
 		}
 		private function goGaleriaHandler(event:MenuEve):void{

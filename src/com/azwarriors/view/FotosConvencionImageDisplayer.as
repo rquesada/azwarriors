@@ -1,4 +1,6 @@
 package com.azwarriors.view {
+	import com.azwarriors.model.MainModel;
+	import flash.events.FullScreenEvent;
 	import flash.geom.Matrix;
 	import flash.display.BitmapData;
 	import flash.text.TextFormat;
@@ -34,15 +36,21 @@ package com.azwarriors.view {
 		public var totalImages:int;
 		
 		private var arialFont:ArialFont;
+		
+		//private var half_width:Number;
+		//private var half_height:Number;
+		
 		public function FotosConvencionImageDisplayer()
 		{
-			
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);	
 		}
 		
 		public function init():void {
+			
+			
 			background = new Sprite();
 			background.graphics.beginFill(0x000000,0.5);
-			background.graphics.drawRect(0, 0,1000, 800);
+			background.graphics.drawRect(0, 0,(MainModel.getInstance().half_width*2), (MainModel.getInstance().half_height*2));
 			background.graphics.endFill();
 			background.addEventListener(MouseEvent.CLICK, onBackgroundClickHandler);
 			addChild(background);
@@ -107,9 +115,25 @@ package com.azwarriors.view {
 			closeBtn.alpha = 0;
 			imagesNumberText.alpha = 0;
 			addChild(image);
+		}
+
+		private function onAddedToStage(event : Event) : void {
+			//half_height = (stage.stageHeight/ 2);
+			//half_width = (stage.stageWidth /2);
+			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onStageFullScreenHandler);
+		}
+
+		private function onStageFullScreenHandler(event : FullScreenEvent) : void {
+			/*if(half_height > stage.stageHeight){
+				half_height = (stage.stageHeight) / 2;
+				half_width = (stage.stageWidth) / 2;
+			}else{
+				half_height = 0;//((stage.stageHeight - half_height) / 2) - (stage.stageHeight - half_height);
+				half_width = 0;//((stage.stageWidth - half_width) / 2) - (stage.stageWidth - half_width);	
+			}*/
 			
 		}
-		
+
 		
 		private function onCloseClickHandler(event:MouseEvent):void{
 			onBackgroundClickHandler(null);
@@ -144,6 +168,12 @@ package com.azwarriors.view {
 		public function presentImage(_image:Bitmap):void {
 			//_image.width = 600;
 			//_image.height= 393;
+			background.graphics.clear();
+			background.graphics.beginFill(0x000000,0.5);
+			background.graphics.drawRect(MainModel.getInstance().modalX, MainModel.getInstance().modalY, (MainModel.getInstance().modalWidth), (MainModel.getInstance().modalHeight));
+			background.graphics.endFill();
+			//background.addEventListener(MouseEvent.CLICK, onBackgroundClickHandler);
+			
 			var imageScaled:Bitmap = new Bitmap(scaleBitmapData(_image.bitmapData, 0.5));
 			
 			TweenLite.to(arrowBtnRight,0.3,{y:arrowBtnRight.y-20,delay:0,onComplete:hideControls});
@@ -153,12 +183,17 @@ package com.azwarriors.view {
 			//imagesNumberText.y = imagesNumberText.y - 20;
 			
 			TweenLite.to(image,0.3,{alpha:0,delay:0});
-			var xPos:int = (stage.stageWidth / 2) - (imageScaled.width/ 2);
-			var yPos:int  = (stage.stageHeight / 2) - (imageScaled.height/ 2);
+			//var xPos:int = (stage.stageWidth / 2) - (imageScaled.width/ 2);
+			//var yPos:int  = (stage.stageHeight / 2) - (imageScaled.height/ 2);
+			var xPos : int = MainModel.getInstance().half_width  - (imageScaled.width/ 2);
+			var yPos: int = MainModel.getInstance().half_height - (imageScaled.height/ 2);
+			
+			//frameImage.x = (stage.stageWidth/2) - (frameImage.width/2);
+			//frameImage.y = (stage.stageHeight/2) - (frameImage.height/2);
+			frameImage.x = MainModel.getInstance().half_width  - (frameImage.width/2);
+			frameImage.y = MainModel.getInstance().half_height - (frameImage.height/2);
 			
 			
-			frameImage.x = (stage.stageWidth/2) - (frameImage.width/2);
-			frameImage.y = (stage.stageHeight/2) - (frameImage.height/2);
 			//TweenLite.to(frameImage, 0.5, {alpha:0,height:0,width:0});
 			TweenLite.to(frameImage, 0.5, {alpha:1,width:imageScaled.width, height:imageScaled.height, x:xPos, y:yPos,delay:0.7,onComplete:showImage,onCompleteParams:[imageScaled]});
 
@@ -180,10 +215,12 @@ package com.azwarriors.view {
 		
 		private function showImage(_image:Bitmap):void {
 			
-			var xPos:int = (stage.stageWidth / 2) - (_image.width/ 2);
+			//var xPos:int = (stage.stageWidth / 2) - (_image.width/ 2);
+			var xPos : int = MainModel.getInstance().half_width  - (_image.width/ 2);
 			image.x = xPos;
 			
-			var yPos:int  = (stage.stageHeight / 2) - (_image.height/ 2);
+			//var yPos:int  = (stage.stageHeight / 2) - (_image.height/ 2);
+			var yPos: int = MainModel.getInstance().half_height - (_image.height/ 2);
 			image.y = yPos;
 			TweenLite.to(image, 0.5, {alpha:1,delay:0,onComplete:showControls});
 			image.bitmapData = _image.bitmapData;

@@ -1,5 +1,7 @@
 package com.azwarriors.footer
 {
+	import com.azwarriors.model.MainModel;
+	import flash.events.FullScreenEvent;
 	import com.azwarriors.events.MenuEve;
 	
 	import dev.home.FooterBackground;
@@ -27,6 +29,8 @@ package com.azwarriors.footer
 		}
 		
 		private function create():void{
+			
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
 			//Background
 			backgroudFooter = new FooterBackground();
@@ -72,9 +76,40 @@ package com.azwarriors.footer
 			botonVideos.addEventListener(MouseEvent.MOUSE_OUT, mouseOutVideos);
 			botonVideos.addEventListener(MouseEvent.CLICK, mouseClickVideos);
 			addChild(botonVideos);
-			
 		}
-		
+
+		private function onAddedToStage(event : Event) : void {
+			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenHandler);
+		}
+
+		private function onFullScreenHandler(event : Event) : void {
+			//trace("onResizeHandler");
+			//removeChild(backgroudFooter);
+			var posX:Number;
+			if(backgroudFooter.mcBg.width > stage.stageWidth){
+				posX = 0;
+				MainModel.getInstance().half_height = (stage.stageHeight/2);
+				MainModel.getInstance().half_width = (stage.stageWidth/2);
+				MainModel.getInstance().modalWidth = stage.stageWidth;
+				MainModel.getInstance().modalHeight = stage.stageHeight;
+				MainModel.getInstance().modalX = 0;
+				MainModel.getInstance().modalY = 0
+			}else{
+				posX = (stage.stageWidth - backgroudFooter.mcBg.width)/2;
+				MainModel.getInstance().half_height = ((stage.stageHeight - MainModel.getInstance().half_height ) / 2) ;
+				MainModel.getInstance().half_width = ((stage.stageWidth - MainModel.getInstance().half_width) / 2);
+				MainModel.getInstance().modalX = - (stage.stageWidth - MainModel.getInstance().modalWidth) ;
+				MainModel.getInstance().modalY = - (stage.stageHeight - MainModel.getInstance().modalHeight);
+				MainModel.getInstance().modalWidth = stage.stageWidth *2;
+				MainModel.getInstance().modalHeight = stage.stageHeight*2;
+				
+			}
+			
+			backgroudFooter.mcBg.width = stage.stageWidth;
+			
+			backgroudFooter.mcBg.x = -posX;
+		}
+
 		//Events Videos
 		private function mouseOverVideos(event:MouseEvent):void{
 			botonVideos.gotoAndStop(2);

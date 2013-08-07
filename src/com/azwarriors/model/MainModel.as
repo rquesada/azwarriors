@@ -23,6 +23,15 @@ package com.azwarriors.model
 		
 		public var data:VO;
 		
+		public var half_width:Number;
+		public var half_height:Number;
+		
+		public var modalHeight:Number;
+		public var modalWidth:Number;
+		public var modalX:Number;
+		public var modalY:Number;
+		
+		
 		public function MainModel(singleton:SingletonEnforcer)
 		{
 			_loaderManager = new LoaderManager();
