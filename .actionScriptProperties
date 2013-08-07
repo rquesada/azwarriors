@@ -28,7 +28,7 @@
       <libraryPathEntry kind="3" linkType="1" path="libs/bulk_loader.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="libs/IntroAZWarriorsCS5.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="libs/INTRo2CS5.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="/Users/rquesada/Proyectos/idartstudio/AZWarrior/azwarriors/libs/General.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="libs/General.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -38,4 +38,3 @@
   <modules/>
   <buildCSSFiles/>
 </actionScriptProperties>
-

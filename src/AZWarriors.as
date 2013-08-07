@@ -35,7 +35,6 @@ package
 	import flash.profiler.showRedrawRegions;
 	import flash.system.fscommand;
 	
-	import flashx.textLayout.formats.Category;
 
 	
 	[SWF (backgroundColor='#f4d7b3',  frameRate='30', width='1000', height='715') ]
