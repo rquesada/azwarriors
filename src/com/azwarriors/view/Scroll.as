@@ -67,9 +67,22 @@ package com.azwarriors.view {
 			content.x = 1;
 			
 			
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStageHandler);
+			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedToStageHandler);
 			arrowPercentage =1;
 			//var scrollbar:VerticalScrollbar = new VerticalScrollbar(stage, line, scroller, maskSp, content);
-			
+		}
+
+		private function onRemovedToStageHandler(event : Event) : void {
+			stage.removeEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheelHandler);
+		}
+
+		private function onAddedToStageHandler(event : Event) : void {
+			stage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheelHandler);
+		}
+
+		private function onMouseWheelHandler(event : MouseEvent) : void {
+			trace("onMouseWheelHandler");	
 		}
 
 		private function onScrollerMouseDownHandler(evenr:MouseEvent):void {
