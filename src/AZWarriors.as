@@ -1,6 +1,14 @@
 package
 {
 
+	import flash.errors.IOError;
+	import flashx.textLayout.formats.Category;
+	import com.azwarriors.assets.btnInicio_FC;
+	import flash.display.StageDisplayState;
+	import flash.system.fscommand;
+	import flash.events.Event;
+	import com.azwarriors.assets.mcCloseBtn_FC;
+	import flash.events.FullScreenEvent;
 	import com.azwarriors.model.MainModel;
 	import com.greensock.layout.ScaleMode;
 	import com.azwarriors.controller.FotoGuerreroController;
@@ -45,8 +53,11 @@ package
 		private var videosView:String = "videosView";
 		private var galeriaController:GaleriaController;
 		
+		private var closeBtn:mcCloseBtn_FC;
 		//View
 		private var videoConvencionView:VideoConvencionView;
+		
+		private var inicioBtn:btnInicio_FC;
 		
 		public function AZWarriors()
 		{
@@ -80,6 +91,8 @@ package
 		private function create():void{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			//Background
+			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEventHandler);
 			
 			MainModel.getInstance().half_height = (stage.stageHeight/2);
 			MainModel.getInstance().half_width = (stage.stageWidth/2);
@@ -151,15 +164,38 @@ package
 			footerView.addEventListener("goGaleria", goGaleriaHandler);
 			footerView.addEventListener("goVideos", goVideosHandler);
 			
+			closeBtn = new mcCloseBtn_FC();
+			closeBtn.addEventListener(MouseEvent.CLICK, onCloseBtnMouseClick);
 		}
-		
+
+		private function onCloseBtnMouseClick(event : MouseEvent) : void {
+			stage.displayState = StageDisplayState.NORMAL;
+			//fscommand("quit");
+			 
+			
+		}
+
+		private function addedToStageHandler(event : Event) : void {
+			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEventHandler);
+		}
+
+		private function onFullScreenEventHandler(event : FullScreenEvent) : void {
+			if(!contains(closeBtn)){
+				
+				addChild(closeBtn);
+			}else{
+				
+				removeChild(closeBtn);
+			}
+		}
+
 		private function hideLastView():void{
 			if(lastView == inicioView){
 				show(false);
 			}else if (lastView == guerreroView){
 				//fotoGuerreroController.stopView();
 				//removeChild(fotoGuerreroController.view);
-				removeChild(galeriaController.view);
+				//removeChild(galeriaController.view);
 			}else if(lastView == galeriaView){
 				removeChild(fotosConvecionController.view);
 			}else if (lastView == videosView){
@@ -180,10 +216,32 @@ package
 //			fotoGuerreroController.init();
 //			addChild(fotoGuerreroController.view);
 			addChild(galeriaController.view);
+			
+			inicioBtn = new btnInicio_FC();
+			addChild(inicioBtn);
+			inicioBtn.addEventListener(MouseEvent.CLICK, onBtnInicio);
+			inicioBtn.x = 800;
+			inicioBtn.y = 570;
+			
 			//galeriaController.view.height = 2500;
 			
 			lastView= guerreroView;
 		}
+
+		private function onBtnInicio(event : MouseEvent) : void {
+			removeChild(inicioBtn);
+			//removeChild(galeriaController.view);
+			//removeChild(galeriaController.view);
+			try{
+				galeriaController.view.remove();
+			}catch(e:Error){
+			
+			}
+			//hideLastView();
+			show(true);
+			//removeChild(galeriaController.view);
+		}
+
 		private function goGaleriaHandler(event:MenuEve):void{
 			hideLastView();
 			addChild(fotosConvecionController.view);

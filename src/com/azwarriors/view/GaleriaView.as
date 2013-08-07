@@ -29,7 +29,11 @@ package com.azwarriors.view
 		
 		private function  onCompleteHandler(loadEvent:Event):void
 		{
-			addChild(loadEvent.currentTarget.content);
+			addChild(loadEvent.target.content);
+		}
+		
+		public function remove():void{
+			parent.removeChild(this);
 		}
 	}
 }
