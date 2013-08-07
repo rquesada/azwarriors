@@ -24,6 +24,7 @@ package com.view
 			//Scroll
 			scroll = new Scroll();
 			scroll.init(910, 500, view);	
+			scroll.arrowPercentage = 20;
 			addChild(scroll);
 			scroll.x = 40;
 			scroll.y = 40;
