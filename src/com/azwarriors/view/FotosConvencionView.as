@@ -1,21 +1,25 @@
 package com.azwarriors.view
 {
-	import com.azwarriors.assets.mcMaskFotoGuerrero_FC;
-	import flash.events.MouseEvent;
-	import com.azwarriors.assets.mcArribaText_FC;
 	import com.azwarriors.assets.mcArribaButton_FC;
-	import flash.events.Event;
-	import com.greensock.TweenLite;
-	import com.azwarriors.vo.ThumbSelectedVO;
-	import com.azwarriors.events.CustomEvent;
+	import com.azwarriors.assets.mcArribaText_FC;
 	import com.azwarriors.assets.mcFotosConvencionTitle_FC;
+	import com.azwarriors.assets.mcMaskFotoGuerrero_FC;
+	import com.azwarriors.events.CustomEvent;
 	import com.azwarriors.vo.FotoConvencionVO;
 	import com.azwarriors.vo.FotosConvencionVO;
+	import com.azwarriors.vo.ThumbSelectedVO;
+	import com.azwarriors.vo.VO;
+	import com.greensock.TweenLite;
 	
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	public class FotosConvencionView extends Sprite
 	{
+		public static const EVENT_THUMB_SELECTED:String = "onThumbSelectedFotoConvencionView";
+		
 		private var fotosConvencion:FotosConvencionVO;
 		private var imageDisplayer:FotosConvencionImageDisplayer;
 		private var thumbsSelector:FotosConvencionThumbsSelector;
@@ -108,15 +112,26 @@ package com.azwarriors.view
 		private function onThumbSelected(event:CustomEvent):void{
 			trace("FCView - thumbSelected: " + (event.data as ThumbSelectedVO).id);
 			thumbSelectedId = (event.data as ThumbSelectedVO).id;
-			if(!contains(imageDisplayer)){
+			dispatchEvent(new CustomEvent(EVENT_THUMB_SELECTED,event.data));
+			/*if(!contains(imageDisplayer)){
 				imageDisplayer.alpha = 0;
 				addChild(imageDisplayer);
 				TweenLite.to(imageDisplayer, 0.5, {alpha:1});
 			}
 			imageDisplayer.presentImage((fotosConvencion.fotosConvencionArray[(event.data as ThumbSelectedVO).id] as FotoConvencionVO).image);
-			imageDisplayer.setCurrentImageText(thumbSelectedId+1);		
+			imageDisplayer.setCurrentImageText(thumbSelectedId+1);*/		
 		}
-
+		
+		public function presentImageOnImageDisplayer(image:Bitmap):void{
+			if(!contains(imageDisplayer)){
+				imageDisplayer.alpha = 0;
+				addChild(imageDisplayer);
+				TweenLite.to(imageDisplayer, 0.5, {alpha:1});
+			}
+			imageDisplayer.presentImage(image);
+			imageDisplayer.setCurrentImageText(thumbSelectedId+1);
+		}
+		
 		private function presentPreviousImageHandler(event:Event):void {
 			if(thumbSelectedId > 0){
 				thumbSelectedId--;
@@ -124,7 +139,10 @@ package com.azwarriors.view
 				return;
 			}
 			thumbsSelector.selectThumb(thumbSelectedId);
-			imageDisplayer.presentImage((fotosConvencion.fotosConvencionArray[thumbSelectedId] as FotoConvencionVO).image);
+			//imageDisplayer.presentImage((fotosConvencion.fotosConvencionArray[thumbSelectedId] as FotoConvencionVO).image);
+			var vo:ThumbSelectedVO = new ThumbSelectedVO();
+			vo.id = thumbSelectedId;
+			dispatchEvent(new CustomEvent(EVENT_THUMB_SELECTED,vo as VO));
 			imageDisplayer.setCurrentImageText(thumbSelectedId+1);	
 		}
 		
@@ -135,7 +153,10 @@ package com.azwarriors.view
 				return;
 			}
 			thumbsSelector.selectThumb(thumbSelectedId);
-			imageDisplayer.presentImage((fotosConvencion.fotosConvencionArray[thumbSelectedId] as FotoConvencionVO).image);	
+			//imageDisplayer.presentImage((fotosConvencion.fotosConvencionArray[thumbSelectedId] as FotoConvencionVO).image);
+			var vo:ThumbSelectedVO = new ThumbSelectedVO();
+			vo.id = thumbSelectedId;
+			dispatchEvent(new CustomEvent(EVENT_THUMB_SELECTED,vo as VO));
 			imageDisplayer.setCurrentImageText(thumbSelectedId+1);
 		}
 	}

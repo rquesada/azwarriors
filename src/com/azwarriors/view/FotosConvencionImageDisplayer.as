@@ -201,7 +201,7 @@ package com.azwarriors.view {
 			
 		}
 		
-		function scaleBitmapData(bitmapData:BitmapData, scale:Number):BitmapData {
+		private function scaleBitmapData(bitmapData:BitmapData, scale:Number):BitmapData {
             scale = Math.abs(scale);
             var width:int = (bitmapData.width * scale) || 1;
             var height:int = (bitmapData.height * scale) || 1;

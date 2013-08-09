@@ -17,7 +17,7 @@ package com.azwarriors.view {
 		private var content:Sprite;
 		
 		private var percentage:Number;
-		public var arrowPercentage;
+		public var arrowPercentage : Number;
 		public function Scroll() {
 		
 		}
