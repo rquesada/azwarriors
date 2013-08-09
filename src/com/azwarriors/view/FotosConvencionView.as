@@ -18,6 +18,7 @@ package com.azwarriors.view
 	
 	public class FotosConvencionView extends Sprite
 	{
+		public static const EVENT_THUMBS_READY:String = "onThumbsReadyEventView";
 		public static const EVENT_THUMB_SELECTED:String = "onThumbSelectedFotoConvencionView";
 		
 		private var fotosConvencion:FotosConvencionVO;
@@ -95,12 +96,15 @@ package com.azwarriors.view
 			//trace("onArribaBtnRollOut");
 			TweenLite.to(arribaTextMask,0.3, {x:(arribaText.x - arribaTextMask.width - 30)});
 		}
-
+		
+		
+		
 		private function onArribaBtnRollOver(event : MouseEvent) : void {
 			TweenLite.to(arribaTextMask,0.3, {x:arribaText.x });
 		}
 
 		private function onThumbsReady(event:Event):void{
+			dispatchEvent(new Event(EVENT_THUMBS_READY));
 			scroll = new Scroll();
 			addChild(scroll);
 			scroll.init(870, 350, thumbsSelector);	
@@ -143,7 +147,7 @@ package com.azwarriors.view
 			var vo:ThumbSelectedVO = new ThumbSelectedVO();
 			vo.id = thumbSelectedId;
 			dispatchEvent(new CustomEvent(EVENT_THUMB_SELECTED,vo as VO));
-			imageDisplayer.setCurrentImageText(thumbSelectedId+1);	
+			//imageDisplayer.setCurrentImageText(thumbSelectedId+1);	
 		}
 		
 		private function presentNextImageHandler(event:Event):void {
@@ -157,7 +161,11 @@ package com.azwarriors.view
 			var vo:ThumbSelectedVO = new ThumbSelectedVO();
 			vo.id = thumbSelectedId;
 			dispatchEvent(new CustomEvent(EVENT_THUMB_SELECTED,vo as VO));
-			imageDisplayer.setCurrentImageText(thumbSelectedId+1);
+			//imageDisplayer.setCurrentImageText(thumbSelectedId+1);
+		}
+		
+		public function addThumbImageOnSelector(image:Bitmap,index:int):void{
+			thumbsSelector.addThumbBitMap(image,index);
 		}
 	}
 }

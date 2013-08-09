@@ -10,17 +10,26 @@ package com.azwarriors.model
 	import flash.display.Bitmap;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.sampler.NewObjectSample;
 	import flash.utils.flash_proxy;
 	
 	public class MainModel extends EventDispatcher
 	{
 		public static const MODEL_READY:String = "onModelReady";
 		
+		public static const MODEL_THUMB_READY:String = "onModelThumbReady";
+		
+		
 		private static var _instance:MainModel;
 		private var _loaderManager:LoaderManager;
 		
+		private var _loaderManagerThumbs:LoaderManager;
+		
 		private var imageUrl:String;
 		public var image:Bitmap
+		
+		private var thumbUrl:String;
+		public var thumbImage:Bitmap;
 		//public var fotosConvencionVO:FotosConvencionVO;
 		
 		public var data:VO;
@@ -38,6 +47,9 @@ package com.azwarriors.model
 		{
 			_loaderManager = new LoaderManager();
 			_loaderManager.init();
+			
+			_loaderManagerThumbs = new LoaderManager("thumbs");
+			_loaderManagerThumbs.init();
 		}
 		
 		public static function getInstance():MainModel{
@@ -105,11 +117,12 @@ package com.azwarriors.model
 				fotoConvencionVO.thumbUrl = fotoXML.thumb;
 				(data as FotosConvencionVO).fotosConvencionArray.push(fotoConvencionVO);
 				//_loaderManager.addAsset(fotoConvencionVO.imageUrl);
-				_loaderManager.addAsset(fotoConvencionVO.thumbUrl);
+				//_loaderManager.addAsset(fotoConvencionVO.thumbUrl);
 				//trace("fotoConvencionVO.thumbUrl: "+fotoConvencionVO.thumbUrl);
 			}
-			_loaderManager.addEventListener(Event.COMPLETE, onFotosConvencionImagesLoadedHandler);
-			_loaderManager.start();
+			//_loaderManager.addEventListener(Event.COMPLETE, onFotosConvencionImagesLoadedHandler);
+			//_loaderManager.start();
+			dispatchEvent(new Event(MainModel.MODEL_READY));
 		}
 		
 		private function onFotosConvencionImagesLoadedHandler(event:Event):void{
@@ -143,6 +156,20 @@ package com.azwarriors.model
 			_loaderManager.removeLastCallBack();
 		}
 		
+		public function loadThumbImage(path:String):void{
+			trace("loadThumbImage: "+path);
+			thumbUrl = path;
+			_loaderManagerThumbs.removeAll();
+			_loaderManagerThumbs.addEventListener(Event.COMPLETE,onThumbLoadedCompleteHandler);
+			_loaderManagerThumbs.addAsset(thumbUrl);	
+			_loaderManagerThumbs.start();	
+		}
+		
+		private function onThumbLoadedCompleteHandler(event:Event):void{
+			_loaderManagerThumbs.removeEventListener(Event.COMPLETE,onThumbLoadedCompleteHandler);
+			thumbImage = _loaderManagerThumbs.getAsset(thumbUrl) as Bitmap;
+			dispatchEvent(new Event(MainModel.MODEL_THUMB_READY));
+		}
 		
 	}
 }

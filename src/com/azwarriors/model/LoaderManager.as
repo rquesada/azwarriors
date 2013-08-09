@@ -19,8 +19,8 @@ package com.azwarriors.model
 		private var _defaultImage:String = "images/fotosConvencion/thumbnails/imageError.jpg"
 		private var _lastCallBack:Function;
 		
-		public function LoaderManager() {
-			_bulkLoader = new BulkLoader("azwarriors");
+		public function LoaderManager(bulkName:String = "azwarriors") {
+			_bulkLoader = new BulkLoader(bulkName);
 			_bulkLoader.logLevel = BulkLoader.LOG_ERRORS;
 		}
 

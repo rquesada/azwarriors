@@ -1,13 +1,14 @@
 package com.azwarriors.view
 {
-	import com.azwarriors.vo.ThumbSelectedVO;
 	import com.azwarriors.events.CustomEvent;
-	import com.azwarriors.vo.VO;
-	import flash.events.Event;
 	import com.azwarriors.vo.FotoConvencionVO;
 	import com.azwarriors.vo.FotosConvencionVO;
+	import com.azwarriors.vo.ThumbSelectedVO;
+	import com.azwarriors.vo.VO;
 	
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	
 	public class FotosConvencionThumbsSelector extends Sprite
 	{
@@ -35,7 +36,7 @@ package com.azwarriors.view
 			for (var i:int = 0; i < data.fotosConvencionArray.length; i++){
 				//trace(i);
 				var fotoConvencionVO:FotoConvencionVO = data.fotosConvencionArray[i];
-				var thumbView:FotoConvencionThumbView = new FotoConvencionThumbView(fotoConvencionVO.thumb);
+				var thumbView:FotoConvencionThumbView = new FotoConvencionThumbView();
 				thumbView.x = xPos;
 				thumbView.y = yPos;
 				container.addChild(thumbView);
@@ -62,6 +63,10 @@ package com.azwarriors.view
 					(thumbsArray[i] as FotoConvencionThumbView).deSelectThumb();
 				}
 			}
+		}
+		
+		public function addThumbBitMap(image:Bitmap,index:int):void{
+			(thumbsArray[index] as FotoConvencionThumbView).addBitMap(image);
 		}
 		
 		public function selectThumb(idThumb:int):void{

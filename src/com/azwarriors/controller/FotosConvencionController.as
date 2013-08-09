@@ -11,10 +11,12 @@ package com.azwarriors.controller
 	
 	import dev.home.FotoConvencion;
 	
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
+	
 	
 	public class FotosConvencionController extends EventDispatcher
 	{
@@ -23,6 +25,8 @@ package com.azwarriors.controller
 		public var fotosConvecionVO:FotosConvencionVO;
 		
 		private var preloader:mcPreloader_FC;
+		
+		private var thumbImageLoaded:int;
 		
 		public function FotosConvencionController()
 		{
@@ -42,6 +46,7 @@ package com.azwarriors.controller
 			MainModel.getInstance().addEventListener(MainModel.MODEL_READY,onModelReadyHandler);
 			MainModel.getInstance().loadFotosConvencionVO();
 			mainView = new FotosConvencionView();
+			mainView.addEventListener(FotosConvencionView.EVENT_THUMBS_READY,onThumbsReady);
 		}
 		
 		private function onModelReadyHandler(event:Event):void{
@@ -51,6 +56,29 @@ package com.azwarriors.controller
 			fotosConvecionVO = MainModel.getInstance().data as FotosConvencionVO;
 			mainView.init(MainModel.getInstance().data as FotosConvencionVO);
 			mainView.addEventListener(FotosConvencionView.EVENT_THUMB_SELECTED,onThumbSelected);
+		}
+		
+		private function onThumbsReady(event:Event):void{
+			mainView.removeEventListener(FotosConvencionView.EVENT_THUMBS_READY,onThumbsReady);
+			thumbImageLoaded = 0;
+			MainModel.getInstance().addEventListener(MainModel.MODEL_THUMB_READY, onThumbImageLoaded);
+			loadThumbImage(thumbImageLoaded);
+		}
+		
+		private function onThumbImageLoaded(event:Event):void{
+			var image:Bitmap = MainModel.getInstance().thumbImage;
+			//trace("FotosConvencionController - onThumbImageLoaded - image: "+image);
+			
+			mainView.addThumbImageOnSelector(MainModel.getInstance().thumbImage,thumbImageLoaded);
+			thumbImageLoaded++;
+			if(thumbImageLoaded <= fotosConvecionVO.fotosConvencionArray.length-1){
+				loadThumbImage(thumbImageLoaded);
+			}
+		}
+		
+		private function loadThumbImage(thumbImageId:int):void{
+			MainModel.getInstance().loadThumbImage((fotosConvecionVO.fotosConvencionArray[thumbImageId] as FotoConvencionVO).thumbUrl);
+			
 		}
 		
 		private function onThumbSelected(event:CustomEvent):void{

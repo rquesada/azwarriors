@@ -1,9 +1,9 @@
 package com.azwarriors.view
 {
-	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
 	
 	public class FotoConvencionThumbView extends Sprite
@@ -15,7 +15,7 @@ package com.azwarriors.view
 		private var border:Sprite;
 		private var borderSelected:Sprite;
 		
-		public function FotoConvencionThumbView(image:Bitmap)
+		public function FotoConvencionThumbView(image:Bitmap = null)
 		{
 			frame = new Sprite();
 			frame.graphics.beginFill(0xCFBAA0,0.75);
@@ -38,10 +38,10 @@ package com.azwarriors.view
 			borderSelected.graphics.endFill();
 			
 			
-			thumbImage = image;
+			/*thumbImage = image;
 			thumbImage.x = 8;
 			thumbImage.y = 8;
-			addChild(thumbImage);
+			addChild(thumbImage);*/
 			
 			addEventListener(MouseEvent.ROLL_OVER, onRollOverHandler);
 			addEventListener(MouseEvent.ROLL_OUT, onRollOutHandler);
@@ -72,6 +72,13 @@ package com.azwarriors.view
 			if(contains(borderSelected)){
 				removeChild(borderSelected);
 			}
+		}
+		
+		public function addBitMap(bitmap:Bitmap):void{
+			thumbImage = bitmap;
+			thumbImage.x = 8;
+			thumbImage.y = 8;
+			addChild(thumbImage);
 		}
 		
 	}
