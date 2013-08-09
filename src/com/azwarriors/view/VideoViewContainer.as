@@ -23,8 +23,15 @@ package com.azwarriors.view
 		private var btn2:PlayPauseBtn;
 		private var rollArea1:Sprite;
 		private var rollArea2:Sprite;
-		private var url1:String = './videos/Convencion_RD.flv';
-		private var url2:String = './videos/HarlemShakeRD.flv';
+		
+//		MAC
+		private var url1:String = './videos/video2.flv';
+		private var url2:String = './videos/video1.flv';
+		
+		
+//		PC
+//		private var url1:String = 'videos\\video2.flv';
+//		private var url2:String = 'videos\\video1.flv';
 		
 		public function VideoViewContainer()
 		{

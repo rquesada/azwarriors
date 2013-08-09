@@ -68,10 +68,15 @@ package
 		private var sound:Sound;
 		private var soundChannel:SoundChannel;
 		
-		public function AZWarriors(){
+		public function AzFlash()
+		{
 			create();	
 			show(true);
 		}
+		
+		
+		
+		
 		
 		private function show(shouldBeHide:Boolean):void{
 			if(shouldBeHide){
@@ -135,17 +140,17 @@ package
 			videoConvencionButton.addEventListener(MouseEvent.CLICK, vcChangeClickHandler);
 			
 			//videoConvencionView
-			videoConvencionView = new VideoConvencionView();
-			videoConvencionView.x =0;
-			videoConvencionView.y =0;
+			//				videoConvencionView = new VideoConvencionView();
+			//				videoConvencionView.x =0;
+			//				videoConvencionView.y =0;
 			
 			//Galeria
-			fotosConvecionController = new FotosConvencionController();
-			fotosConvecionController.init();
+			//				fotosConvecionController = new FotosConvencionController();
+			//				fotosConvecionController.init();
 			
 			//Foto Guerrero
-			galeriaController = new GaleriaController();
-			galeriaController.view.init();
+			//				galeriaController = new GaleriaController();
+			//				galeriaController.view.init();
 			
 			//Animation
 			introAnimation = new AZwarriorAnimation2();
@@ -206,16 +211,16 @@ package
 			soundChannel = sound.play();
 			isPlaying = true;
 		}
-
+		
 		private function onCloseBtnMouseClick(event : MouseEvent) : void {
 			stage.displayState = StageDisplayState.NORMAL;
 			//fscommand("quit");
-			}
-
+		}
+		
 		private function addedToStageHandler(event : Event) : void {
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEventHandler);
 		}
-
+		
 		private function onFullScreenEventHandler(event : FullScreenEvent) : void {
 			if(!contains(closeBtn)){
 				
@@ -225,7 +230,7 @@ package
 				removeChild(closeBtn);
 			}
 		}
-
+		
 		private function hideLastView():void{
 			if(lastView == inicioView){
 				show(false);
@@ -248,6 +253,13 @@ package
 			
 		}
 		private function goGuerreroHandler(event:MenuEve):void{
+			
+			if(galeriaController == null){
+				galeriaController = new GaleriaController();
+				galeriaController.view.init();
+			}
+			
+			
 			hideLastView();
 			addChild(galeriaController.view);
 			galeriaController.view.x = 0;
@@ -261,7 +273,7 @@ package
 			addChild(playBtn);
 			addChild(pauseBtn);
 		}
-
+		
 		private function onBtnInicio(event : MouseEvent) : void {
 			removeChild(inicioBtn);
 			try{
@@ -270,18 +282,30 @@ package
 			}
 			show(true);
 		}
-
+		
 		private function goGaleriaHandler(event:MenuEve):void{
+			if(fotosConvecionController==null){
+				fotosConvecionController = new FotosConvencionController();
+				fotosConvecionController.init();
+			}
+			
 			hideLastView();
 			addChild(fotosConvecionController.view);
 			lastView = galeriaView;
 		}
 		private function goVideosHandler(event:MenuEve):void{
+			if(videoConvencionView==null){
+				videoConvencionView = new VideoConvencionView();
+				videoConvencionView.x =0;
+				videoConvencionView.y =0;
+			}
+			
+			
 			hideLastView();
 			addChild(videoConvencionView);
 			lastView = videosView;
 		}
-
+		
 		//Button Foto Guerrero
 		private function fgchangeRollOverHandler(event:MouseEvent):void{
 			fotoGuerreroButton.gotoAndPlay(2);
@@ -294,7 +318,7 @@ package
 		private function fgchangeClickHandler(event:MouseEvent):void{
 			goGuerreroHandler(null);
 		}
-
+		
 		//Button Foto Convencion
 		private function fcChangeRollOverHandler(event:MouseEvent):void{
 			fotoConvencionButton.gotoAndPlay(2);
@@ -320,6 +344,5 @@ package
 		private function vcChangeClickHandler(event:MouseEvent):void{
 			goVideosHandler(null);
 		}
-		
 	}
 }
