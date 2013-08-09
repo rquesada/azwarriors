@@ -1,9 +1,9 @@
 package com.azwarriors.model
 {
-	import com.azwarriors.vo.FotoGuerreroItemVO;
-	import com.azwarriors.vo.FotoGuerreroVO;
 	import com.azwarriors.model.LoaderManager;
 	import com.azwarriors.vo.FotoConvencionVO;
+	import com.azwarriors.vo.FotoGuerreroItemVO;
+	import com.azwarriors.vo.FotoGuerreroVO;
 	import com.azwarriors.vo.FotosConvencionVO;
 	import com.azwarriors.vo.VO;
 	
@@ -19,6 +19,8 @@ package com.azwarriors.model
 		private static var _instance:MainModel;
 		private var _loaderManager:LoaderManager;
 		
+		private var imageUrl:String;
+		public var image:Bitmap
 		//public var fotosConvencionVO:FotosConvencionVO;
 		
 		public var data:VO;
@@ -102,7 +104,7 @@ package com.azwarriors.model
 				fotoConvencionVO.imageUrl = fotoXML.image;
 				fotoConvencionVO.thumbUrl = fotoXML.thumb;
 				(data as FotosConvencionVO).fotosConvencionArray.push(fotoConvencionVO);
-				_loaderManager.addAsset(fotoConvencionVO.imageUrl);
+				//_loaderManager.addAsset(fotoConvencionVO.imageUrl);
 				_loaderManager.addAsset(fotoConvencionVO.thumbUrl);
 				//trace("fotoConvencionVO.thumbUrl: "+fotoConvencionVO.thumbUrl);
 			}
@@ -116,9 +118,23 @@ package com.azwarriors.model
 			for each(var fotoConvencionVO:FotoConvencionVO in (data as FotosConvencionVO).fotosConvencionArray){
 				//trace(fotoConvencionVO.imageUrl);
 				//trace(fotoConvencionVO.thumbUrl);
-				fotoConvencionVO.image = _loaderManager.getAsset(fotoConvencionVO.imageUrl) as Bitmap;
+				//fotoConvencionVO.image = _loaderManager.getAsset(fotoConvencionVO.imageUrl) as Bitmap;
 				fotoConvencionVO.thumb = _loaderManager.getAsset(fotoConvencionVO.thumbUrl) as Bitmap;
 			}	
+			dispatchEvent(new Event(MainModel.MODEL_READY));
+		}
+		
+		public function loadImage(path:String):void{
+			imageUrl = path;
+			_loaderManager.removeAll();
+			_loaderManager.addEventListener(Event.COMPLETE,onImageLoadedCompleteHandler);
+			_loaderManager.addAsset(imageUrl);	
+			_loaderManager.start();
+		}
+		
+		private function onImageLoadedCompleteHandler(event:Event):void{
+			_loaderManager.removeEventListener(Event.COMPLETE,onImageLoadedCompleteHandler);
+			image = _loaderManager.getAsset(imageUrl) as Bitmap;
 			dispatchEvent(new Event(MainModel.MODEL_READY));
 		}
 		
@@ -126,6 +142,8 @@ package com.azwarriors.model
 			super.removeEventListener(type, listener, useCapture);
 			_loaderManager.removeLastCallBack();
 		}
+		
+		
 	}
 }
 
